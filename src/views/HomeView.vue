@@ -192,6 +192,7 @@
             class="searchTable"
             border
             fit
+            height="80%"
             style="width: 100%"
           >
             <el-table-column prop="name" label="词条名"></el-table-column>
@@ -227,6 +228,7 @@
             class="searchTable"
             border
             fit
+            height="80%"
             style="width: 100%"
             :default-sort="{ prop: 'cnt', order: 'descending' }"
           >
@@ -250,7 +252,7 @@
           </p>
           <p>
             贡献站所有词条数据资源来源于用户/网络搜集，免费服务于所有用户，任何个人/团队均可免费使用本站资源于任何
-            <strong style="color: #e55">非商用/盈利目的</strong> 项目<br />
+            <strong style="color: #e55">非商用/非盈利目的</strong> 项目<br />
             您只需要联系本站开发团队任意成员，提供 "任意联系方式", "应用名"
             即可免费获取本站的数据源访问token，用于您的开发项目中
           </p>
@@ -644,10 +646,16 @@
   
     .container {
       box-sizing: border-box;
-      padding: 16px;
+      padding: 16px 16px 48px;
       width: 100%;
+      height: 100%;
       flex: 1;
       position: relative;
+      overflow-y: scroll;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
   
       .row {
         width: 100%;
@@ -669,6 +677,7 @@
       }
   
       .search {
+        height: 100%;
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -677,7 +686,21 @@
   
         .searchTable {
           flex: 1;
-          height: 60vh;
+          width: 100%;
+        }
+      }
+
+      .contributor {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+  
+        .searchTable {
+          flex: 1;
+          width: 100%;
         }
       }
 
