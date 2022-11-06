@@ -1,9 +1,9 @@
 <template>
     <el-row class="historyBox">
-        <el-col :span="2">
+        <el-col :span="3">
             <b><i class="el-icon-time"></i>历史记录:</b>
         </el-col>
-        <el-col :span="21">
+        <el-col :span="20">
             <div class="histories" :class="{ lh: extended }">
                 <el-tag class="history-block" v-for="{w,i} in datas" @click="$emit('select', $event.target.getAttribute('data-history-data'))" :data-history-data="w" :key="i">{{ w }}
                 </el-tag>

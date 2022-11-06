@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import adminPanel from '../views/adminPanel.vue'
 
 Vue.use(VueRouter)
 
@@ -9,12 +7,12 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: /* HomeView */ () => import(/* webpackChunkName: "home" */ '@/views/HomeView.vue')
   },
   {
     path: '/admin',
     name: 'admin',
-    component: adminPanel
+    component: /* adminPanel */ () => import(/* webpackChunkName: "adminPanel" */ '@/views/adminPanel.vue')
   },
 ]
 

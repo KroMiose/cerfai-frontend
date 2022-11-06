@@ -24,8 +24,12 @@
         <div style="height: 25%"></div>
         <h1>Novelai词条百科共享站</h1>
         <small
-          >收到用户贡献词条数: {{ up_cnt }},已收录总词条数: {{ ct_total }}</small
-        ><br /><br />
+          >累计收到用户贡献词条数: {{ up_cnt }},已收录总词条数: {{ ct_total }}<br/>
+        </small>
+        <h4
+          >本站主域名: www.cerfai.com
+        </h4>
+        <br/><br/>
         <el-button type="primary" round @click="activeIndex = 'contribute'"
           >前往贡献页面→</el-button
         >
@@ -39,8 +43,8 @@
         >
           <h3>关于本站</h3>
           <div>
-            本站皆在建立novelai中所包含的词条解释数据库，为广大魔导师提供词条贡献平台，所有收集的数据在收集整理后进行公开，为novelai开源生态建立数据仓库基础，免费为各大开发者提供数据接口服务(详见"共享计划")，如果您有其他数据源或者自行整理的词条信息，并且希望参与本站建设，可以直接联系我们进行批量数据导入<br />
-            联系方式： 621816415(洛儿)<br />
+            本站皆在建立novelai中所包含的词条百科数据库，为广大魔导师提供词条贡献平台，所有收集的数据在收集整理后免费公开，为novelai开源生态建立数据仓库基础，为各大开发者提供<strong style="color: #e55">数据接口服务</strong>（详见"共享计划"），如果您有其他数据源或者自行整理的词条信息，并且希望参与本站建设，可以直接联系我们进行批量数据导入<br />
+            联系方式： 621816415(洛儿)<br/>
             本站交流群：660612010
           </div>
           <div>
@@ -200,12 +204,12 @@
             <el-table-column prop="desc" label="描述说明"></el-table-column>
             <el-table-column prop="remark" label="备注"></el-table-column>
             <el-table-column prop="contributor" label="贡献者"></el-table-column>
-            <el-table-column prop="c_name" label="分类名"></el-table-column>
+            <el-table-column prop="c_name" label="所属分类"></el-table-column>
             <el-table-column
               prop="nsfw"
-              label="是否工作场所不宜"
+              label="是否NSFW"
             ></el-table-column>
-            <el-table-column prop="opration" label="操作">
+            <el-table-column prop="opration" label="操作" width="80">
               <template>
                 <el-button
                   size="mini"
@@ -421,6 +425,7 @@
           this.$message({ type: "error", message: "搜索词为空", duration: 2000 });
           return;
         }
+        this.$message({ type: "info", message: "正在检索词条", duration: 1000 });
         for (let i = 0; i < this.searchHis.length; i++) {
           if (this.searchHis[i].w == this.search_keyword) {
             for (let j = i - 1; j >= 0; j--) {
