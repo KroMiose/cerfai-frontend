@@ -8,7 +8,7 @@
         style="z-index: 2"
         :class="{ transBack: activeIndex == 'home' }"
       >
-        <el-menu-item index="home">Novelai词条贡献站 ></el-menu-item>
+        <el-menu-item index="home">Novelai词条百科共享站 ></el-menu-item>
         <el-menu-item index="contribute">参与贡献</el-menu-item>
         <el-menu-item index="tag_search">搜索词条</el-menu-item>
         <el-menu-item index="contributor">贡献榜</el-menu-item>
@@ -18,11 +18,11 @@
         v-show="activeIndex == 'home'"
         style="position: absolute; top: 0px; width: 100%; z-index: 1"
         :items="imageSet"
-        title="Novelai词条贡献站"
+        title="Novelai词条百科共享站"
         height="500"
       >
         <div style="height: 25%"></div>
-        <h1>Novelai词条贡献站</h1>
+        <h1>Novelai词条百科共享站</h1>
         <small
           >收到用户贡献词条数: {{ up_cnt }},已收录总词条数: {{ ct_total }}</small
         ><br /><br />
@@ -39,7 +39,7 @@
         >
           <h3>关于本站</h3>
           <div>
-            本站皆在建立novelai中所包含的词条解释数据库，为广大魔导师提供词条贡献平台，所有收集的数据在收集整理后进行公开，为novelai开源生态建立数据仓库基础，如果您有其他数据源或者自行整理的词条信息，并且希望参与本站建设，可以直接联系我们进行批量数据导入<br />
+            本站皆在建立novelai中所包含的词条解释数据库，为广大魔导师提供词条贡献平台，所有收集的数据在收集整理后进行公开，为novelai开源生态建立数据仓库基础，免费为各大开发者提供数据接口服务(详见"共享计划")，如果您有其他数据源或者自行整理的词条信息，并且希望参与本站建设，可以直接联系我们进行批量数据导入<br />
             联系方式： 621816415(洛儿)<br />
             本站交流群：660612010
           </div>
@@ -47,7 +47,7 @@
             参与贡献基本原则：在不破坏他人劳动成果的前提下，对词条原有信息做任何有效补充均可视为有效贡献
           </div>
         </div>
-  
+
         <!-- 贡献页面 -->
         <div class="contributePage" v-show="activeIndex == 'contribute'">
           <!-- 贡献表单 -->
@@ -244,14 +244,14 @@
         <!-- 共享计划 -->
         <div class="share" v-show="activeIndex == 'share'">
           <p>
-            NovelAI词条贡献站 - 数据开放平台 根据
+            NovelAI词条百科共享站 - 数据开放平台 根据
             <a href="https://www.bilibili.com/read/cv19252957" target="_blank"
               >NovelAI信息并联计划公约</a
             >
             约定：
           </p>
           <p>
-            贡献站所有词条数据资源来源于用户/网络搜集，免费服务于所有用户，任何个人/团队均可免费使用本站资源于任何
+            共享站所有词条数据资源来源于用户/网络搜集，免费服务于所有用户，任何个人/团队均可免费使用本站资源于任何
             <strong style="color: #e55">非商用/非盈利目的</strong> 项目<br />
             您只需要联系本站开发团队任意成员，提供 "任意联系方式", "应用名"
             即可免费获取本站的数据源访问token，用于您的开发项目中
@@ -269,8 +269,11 @@
           </p>
         </div>
 
-        <div class="footer">
-          <a href="https://beian.miit.gov.cn/" target="_blank">闽ICP备2022015899号</a>
+        <div v-if="platform == 'pc'" class="footer">
+          <a href="https://beian.miit.gov.cn/" target="_blank">
+            <img src="/images/icn/警徽图标.png" alt="">
+            闽ICP备2022015899号
+          </a>
         </div>
       </div>
     </div>
@@ -313,10 +316,10 @@
           // "images/5.jpg",
           // "images/4.jpg",
           // "images/6.jpg",
-          "images/7.png",
-          "images/8.png",
-          "images/9.png",
-          "images/10.png",
+          "images/7.jpeg",
+          "images/8.jpeg",
+          "images/9.jpeg",
+          "images/10.jpeg",
         ],
         searchHis: [],
       };
@@ -592,7 +595,11 @@
         }, 50);
       },
     },
-    computed: {},
+    computed: {
+      platform() {
+        return this.$store.state.platform;
+      },
+    },
     mounted() {
       this.searchHis = JSON.parse(localStorage.searchHis || "[]");
       this.get_categories();
@@ -708,8 +715,9 @@
         position: absolute;
         bottom: 0;
         left: 0;
-        height: 34px;
+        height: 40px;
         width: 100%;
+        padding-top: 10px;
         display: flex;
         flex-direction: column;
         justify-self: center;
@@ -717,6 +725,11 @@
         background-color: #333;
         color: #fff;
         a {
+          img {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+          }
           display: block;
           color: #ccc;
         }

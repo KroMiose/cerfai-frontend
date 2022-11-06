@@ -4,6 +4,43 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'app',
+  methods: {
+    // 判断是否是移动端
+    _isMobile() {
+      let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+      return flag;
+    },
+  },
+  created() {
+    if (this._isMobile()) {
+      //手机端
+      this.platform = 'pe'
+      //设置rem
+      // window.onload = function(){
+      //   getRem(750,100)
+      // };
+      // window.onresize = function(){
+      //   getRem(750,100)
+      // };
+      // function getRem(pwidth,prem){
+      //   var html = document.getElementsByTagName("html")[0];
+      //   var oWidth = document.body.clientWidth || document.documentElement.clientWidth;
+      //   html.style.fontSize = oWidth/pwidth*prem + "px";
+      // }
+      // console.log('mobile')
+    } else {
+      //pc端
+      this.platform = 'pc'
+      // console.log('pc')
+    }
+    this.$store.commit('setPlatform', this.platform)
+  }
+}
+</script>
+
 <style lang="scss">
 #app, html, body {
   width: 100%;
