@@ -54,22 +54,8 @@ export default {
         message: "正在检索词条",
         duration: 1000,
       });
-      for (let i = 0; i < this.searchHis.length; i++) {
-        if (this.searchHis[i].w == this.search_keyword) {
-          for (let j = i - 1; j >= 0; j--) {
-            this.searchHis[j + 1] = this.searchHis[j];
-            this.searchHis[j + 1].i--;
-          }
-          this.searchHis.shift();
-          break;
-        }
-      }
-      this.searchHis.unshift({
-        w: this.search_keyword,
-        i: this.searchHis.length,
-      });
-      localStorage.searchHis = JSON.stringify(this.searchHis);
       let self = this;
+      self.$store.commit("appendHistory", this.search_keyword);
       // 获取categories列表
       this.$http({
         method: "POST",
@@ -129,7 +115,6 @@ export default {
     },
   },
   mounted() {
-    this.searchHis = JSON.parse(localStorage.searchHis || "[]");
     this.search();
   },
 };
