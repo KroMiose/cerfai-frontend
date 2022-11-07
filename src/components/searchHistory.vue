@@ -23,25 +23,26 @@
 
 <script>
 export default {
-    props: ["datas"],
-    emits: ["select", "clear"],
-    data() {
-        return {
-            extended: true
-        }
-    },methods: {
-        clearData() {
-            let _this = this;
-            this.$confirm('确定删除历史记录吗？', '确认？', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-                
-            }).then(() => {
-                _this.$emit('clear')
-            }).catch(()=>{});
-        }
+  props: ['datas'],
+  emits: ['select', 'clear'],
+  data () {
+    return {
+      extended: true
     }
+  },
+  methods: {
+    clearData () {
+      const _this = this
+      this.$confirm('确定删除历史记录吗？', '确认？', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+
+      }).then(() => {
+        _this.$emit('clear')
+      }).catch(() => {})
+    }
+  }
 }
 
 </script>

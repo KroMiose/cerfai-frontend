@@ -12,17 +12,18 @@
     </div>
 </template>
 <script>
-export default{
-    props: ["items", "title","height"],
-    data(){
-        return{
-            
-        }
-    },computed:{
-        real_height(){
-            return this.height+"px"
-        }
+export default {
+  props: ['items', 'title', 'height'],
+  data () {
+    return {
+
     }
+  },
+  computed: {
+    real_height () {
+      return this.height + 'px'
+    }
+  }
 }
 </script>
 <style>
