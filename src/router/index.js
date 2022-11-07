@@ -13,7 +13,7 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: /* adminPanel */ () => import(/* webpackChunkName: "adminPanel" */ '@/views/adminPanel.vue')
-  },
+  }
 ]
 
 const router = new VueRouter({

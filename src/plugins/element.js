@@ -1,13 +1,7 @@
 import Vue from 'vue'
-import ElementUI, { Button } from 'element-ui'
-import { Form,FormItem } from 'element-ui'
-import { Input } from 'element-ui'
-import { Pagination } from 'element-ui'
-import { Message } from 'element-ui'
-import { MessageBox } from 'element-ui'
-import 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import ElementUI, { Button, Form, FormItem, Input, Pagination, Message, MessageBox } from 'element-ui'
 
+import 'element-ui/lib/theme-chalk/index.css'
 
 // 按需引入Vue组件
 Vue.use(ElementUI)
@@ -17,4 +11,4 @@ Vue.use(FormItem)
 Vue.use(Input)
 Vue.use(Pagination)
 Vue.prototype.$message = Message
-Vue.prototype.$prompt = MessageBox.prompt;
+Vue.prototype.$prompt = MessageBox.prompt

@@ -49,117 +49,117 @@
 </template>
 
 <script>
-import tagPanel from "@/components/tagPanel.vue";
-import logPanel from "@/components/logPanel.vue";
+import tagPanel from '@/components/tagPanel.vue'
+import logPanel from '@/components/logPanel.vue'
 
 export default {
   components: { tagPanel, logPanel },
-  data() {
+  data () {
     return {
-      panelTitle: "词条管理页面",
-      active_page: "1-1",
+      panelTitle: '词条管理页面',
+      active_page: '1-1',
       categories: [],
       contributor_toplist: [],
       up_cnt: 0,
-      prompt_enable: false,
-    };
+      prompt_enable: false
+    }
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+    handleOpen (key, keyPath) {
+      console.log(key, keyPath)
     },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
+    handleClose (key, keyPath) {
+      console.log(key, keyPath)
     },
-    selectMenu(key, keyPath) {
-      console.log(key, keyPath);
-      this.active_page = key;
+    selectMenu (key, keyPath) {
+      console.log(key, keyPath)
+      this.active_page = key
     },
-    goBack() {
-      this.$router.push("/");
+    goBack () {
+      this.$router.push('/')
     },
     // 获取分类
-    get_categories() {
-      const _this = this;
+    get_categories () {
+      const _this = this
       // 获取categories列表
       this.$http({
-        method: "GET",
-        url: `${_this.$store.state.serverhost}/get_categories`,
+        method: 'GET',
+        url: `${_this.$store.state.serverhost}/get_categories`
       })
         .then((res) => {
           // console.log(res.data)
           // _this.categories = res.data.data
-          _this.up_cnt = res.data.up_cnt;
+          _this.up_cnt = res.data.up_cnt
           // _this.categories.forEach((v, i) => {
           //   _this.categories[i].value = v.name
           // })
           // _this.roll_tag()
-          let cd = res.data.contributor;
-          let nlist = [];
-          for (let key in cd) {
+          const cd = res.data.contributor
+          const nlist = []
+          for (const key in cd) {
             // console.log(key,obj[key])
-            nlist.push({ name: key, cnt: cd[key] });
+            nlist.push({ name: key, cnt: cd[key] })
           }
-          _this.contributor_toplist = nlist;
+          _this.contributor_toplist = nlist
         })
         .catch((err) => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
 
-    openAccessInputer() {
-      this.prompt_enable = true;
-      this.$prompt("请输入授权码", "提示", {
-        confirmButtonText: "提交",
-        cancelButtonText: "返回首页",
-        inputErrorMessage: "输入内容有误",
+    openAccessInputer () {
+      this.prompt_enable = true
+      this.$prompt('请输入授权码', '提示', {
+        confirmButtonText: '提交',
+        cancelButtonText: '返回首页',
+        inputErrorMessage: '输入内容有误'
       })
         .then(({ value }) => {
-          const _this = this;
+          const _this = this
           this.$http({
-            method: "POST",
+            method: 'POST',
             url: `${_this.$store.state.serverhost}/admin/check_access`,
-            data: { token: value },
+            data: { token: value }
           }).then((res) => {
             if (res.data.code === 200) {
               this.$message({
-                type: "success",
+                type: 'success',
                 message: res.data.msg,
-                duration: 2000,
-              });
-              _this.$store.commit("setToken", value);
-              _this.$refs.tagPanel.search();
+                duration: 2000
+              })
+              _this.$store.commit('setToken', value)
+              _this.$refs.tagPanel.search()
             } else {
               // this.$router.push('/')
               this.$message({
-                type: "error",
+                type: 'error',
                 message: res.data.msg,
-                duration: 2000,
-              });
-              this.openAccessInputer();
+                duration: 2000
+              })
+              this.openAccessInputer()
             }
-            this.prompt_enable = false;
-          });
+            this.prompt_enable = false
+          })
         })
         .catch(() => {
           this.$message({
-            type: "error",
-            message: "访问该页面需要授权码，即将自动跳转至首页",
-            duration: 1500,
-          });
+            type: 'error',
+            message: '访问该页面需要授权码，即将自动跳转至首页',
+            duration: 1500
+          })
           setTimeout(() => {
-            this.$router.push("/");
-          }, 1000);
-          this.prompt_enable = false;
-        });
-    },
+            this.$router.push('/')
+          }, 1000)
+          this.prompt_enable = false
+        })
+    }
   },
-  mounted() {
-    let _this = this;
+  mounted () {
+    // const _this = this
     // this.get_categories()
-    this.openAccessInputer();
-  },
-};
+    this.openAccessInputer()
+  }
+}
 </script>
 
 <style lang="scss" scoped>

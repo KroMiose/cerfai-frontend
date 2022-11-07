@@ -9,16 +9,16 @@ export default {
   name: 'app',
   methods: {
     // 判断是否是移动端
-    _isMobile() {
-      let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
-      return flag;
-    },
+    _isMobile () {
+      const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+      return flag
+    }
   },
-  created() {
+  created () {
     if (this._isMobile()) {
-      //手机端
+      // 手机端
       this.platform = 'pe'
-      //设置rem
+      // 设置rem
       // window.onload = function(){
       //   getRem(750,100)
       // };
@@ -32,7 +32,7 @@ export default {
       // }
       // console.log('mobile')
     } else {
-      //pc端
+      // pc端
       this.platform = 'pc'
       // console.log('pc')
     }

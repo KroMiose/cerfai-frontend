@@ -9,12 +9,12 @@ import './plugins/element.js'
 // 导入 axios
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-axios.defaults.withCredentials = true // 让axios请求携带cookie
-Vue.prototype.$http = axios
-Vue.use(VueAxios, axios)
 
 // 导入 VueClipboard
 import VueClipboard from 'vue-clipboard2'
+axios.defaults.withCredentials = true // 让axios请求携带cookie
+Vue.prototype.$http = axios
+Vue.use(VueAxios, axios)
 Vue.use(VueClipboard)
 
 Vue.config.productionTip = false

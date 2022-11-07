@@ -127,7 +127,7 @@
                     placeholder="请留下您的用户名或昵称，以便我们记录贡献者，多位贡献者请用英文逗号分隔"
                   ></el-input>
                 </el-form-item>
-  
+
                 <el-form-item>
                   <el-button type="primary" @click="onSubmit">提交</el-button>
                   <el-button @click="roll_tag">换一个</el-button>
@@ -223,7 +223,7 @@
             </el-table-column>
           </el-table>
         </div>
-  
+
         <!-- 贡献榜 -->
         <div class="contributor" v-show="activeIndex == 'contributor'">
           <p>词条贡献榜(每小时更新一次)</p>
@@ -244,7 +244,7 @@
             ></el-table-column>
           </el-table>
         </div>
-  
+
         <!-- 共享计划 -->
         <div class="share" v-show="activeIndex == 'share'">
           <p>
@@ -282,341 +282,341 @@
       </div>
     </div>
   </template>
-  
-  <script>
-  import categorySelector from "@/components/categorySelector.vue";
-  import largeImageTitle from "@/components/largeImageTitle.vue";
-  import searchHistory from "@/components/searchHistory.vue";
-  export default {
-    name: "Home",
-    data() {
-      return {
-        // serverhost: 'www.morangames.xyz:3090',
-        // serverhost: '127.0.0.1:3090',
-        activeIndex: "home",
-        form: {
-          id: "",
-          name: "",
-          t_name: "",
-          c_id: "",
-          c_name: "",
-          is_nsfw: false,
-          desc: "",
-          remarks: "",
-          contributor: "",
-        },
-        form_rule: {
-          contributor: [{ required: true }],
-        },
-        categories: [],
-        activeNames: ["1"],
-        up_cnt: "获取中...",
-        ct_total: "获取中...",
-        search_keyword: "",
-        search_res: [],
-        contributor_toplist: [],
-        imageSet: [
-          // "images/3.jpg",
-          // "images/5.jpg",
-          // "images/4.jpg",
-          // "images/6.jpg",
-          "images/7.jpeg",
-          "images/8.jpeg",
-          "images/9.jpeg",
-          "images/10.jpeg",
-        ],
-        searchHis: [],
-      };
+
+<script>
+import categorySelector from '@/components/categorySelector.vue'
+import largeImageTitle from '@/components/largeImageTitle.vue'
+import searchHistory from '@/components/searchHistory.vue'
+export default {
+  name: 'Home',
+  data () {
+    return {
+      // serverhost: 'www.morangames.xyz:3090',
+      // serverhost: '127.0.0.1:3090',
+      activeIndex: 'home',
+      form: {
+        id: '',
+        name: '',
+        t_name: '',
+        c_id: '',
+        c_name: '',
+        is_nsfw: false,
+        desc: '',
+        remarks: '',
+        contributor: ''
+      },
+      form_rule: {
+        contributor: [{ required: true }]
+      },
+      categories: [],
+      activeNames: ['1'],
+      up_cnt: '获取中...',
+      ct_total: '获取中...',
+      search_keyword: '',
+      search_res: [],
+      contributor_toplist: [],
+      imageSet: [
+        // "images/3.jpg",
+        // "images/5.jpg",
+        // "images/4.jpg",
+        // "images/6.jpg",
+        'images/7.jpeg',
+        'images/8.jpeg',
+        'images/9.jpeg',
+        'images/10.jpeg'
+      ],
+      searchHis: []
+    }
+  },
+  methods: {
+    clearHistory () {
+      localStorage.searchHis = ''
+      this.searchHis = []
     },
-    methods: {
-      clearHistory() {
-        localStorage.searchHis = "";
-        this.searchHis = [];
-      },
-      // 提交tag
-      onSubmit() {
-        console.log("submit!");
-        console.log(this.form);
-        let _this = this;
-        // 获取categories列表
-        this.$http({
-          method: "POST",
-          url: `${_this.$store.state.serverhost}/update_taginfo`,
-          data: _this.form,
-        })
-          .then((res) => {
-            if (res.data.code == 200) {
-              _this.$message({
-                type: "success",
-                message: res.data.msg,
-                duration: 2000,
-              });
-            } else {
-              _this.$message({
-                type: "error",
-                message: res.data.msg,
-                duration: 2000,
-              });
-            }
-          })
-          .catch((err) => {
+    // 提交tag
+    onSubmit () {
+      console.log('submit!')
+      console.log(this.form)
+      const _this = this
+      // 获取categories列表
+      this.$http({
+        method: 'POST',
+        url: `${_this.$store.state.serverhost}/update_taginfo`,
+        data: _this.form
+      })
+        .then((res) => {
+          if (res.data.code === 200) {
             _this.$message({
-              type: "error",
-              message: "请求后端服务器发生错误",
-              duration: 2000,
-            });
-          });
-      },
-      // 获取随机tag
-      roll_tag() {
-        this.$message({
-          type: "info",
-          message: "正在获取随机tag",
-          duration: 1000,
-        });
-        let _this = this;
-        // 获取categories列表
-        this.$http({
-          method: "GET",
-          url: `${_this.$store.state.serverhost}/get_random_tag`,
-        })
-          .then((res) => {
-            if (res.data.code == 200) {
-              _this.$message({
-                type: "success",
-                message: res.data.msg,
-                duration: 2000,
-              });
-              console.log(res.data);
-              _this.form.id = res.data.data.id;
-              _this.form.c_id = res.data.data.c_id;
-              _this.form.is_nsfw = res.data.data.is_nsfw ? true : false;
-              _this.form.name = res.data.data.name;
-              _this.form.t_name = res.data.data.t_name;
-              _this.form.desc = res.data.data.desc ? res.data.data.desc : "";
-              _this.form.remarks = res.data.data.remarks
-                ? res.data.data.remarks
-                : "";
-  
-              _this.categories.forEach((v) => {
-                if (v.id == res.data.data.c_id) {
-                  _this.form.c_name = v.name;
-                }
-              });
-            } else {
-              _this.$message({
-                type: "error",
-                message: res.data.msg,
-                duration: 2000,
-              });
-            }
-          })
-          .catch((err) => {
+              type: 'success',
+              message: res.data.msg,
+              duration: 2000
+            })
+          } else {
             _this.$message({
-              type: "error",
-              message: "请求后端服务器发生错误",
-              duration: 2000,
-            });
-          });
-      },
-      // 搜索tag
-      search() {
-        if (/^\s$/.test(this.searchHis)) {
-          this.$message({ type: "error", message: "搜索词为空", duration: 2000 });
-          return;
-        }
-        this.$message({ type: "info", message: "正在检索词条", duration: 1000 });
-        for (let i = 0; i < this.searchHis.length; i++) {
-          if (this.searchHis[i].w == this.search_keyword) {
-            for (let j = i - 1; j >= 0; j--) {
-              this.searchHis[j + 1] = this.searchHis[j];
-              this.searchHis[j + 1].i--;
-            }
-            this.searchHis.shift();
-            break;
+              type: 'error',
+              message: res.data.msg,
+              duration: 2000
+            })
           }
-        }
-        this.searchHis.unshift({
-          w: this.search_keyword,
-          i: this.searchHis.length,
-        });
-        localStorage.searchHis = JSON.stringify(this.searchHis);
-        let _this = this;
-        // 获取categories列表
-        this.$http({
-          method: "POST",
-          url: `${_this.$store.state.serverhost}/search_tags`,
-          data: {
-            keyword: _this.search_keyword,
-          },
         })
-          .then((res) => {
-            if (res.data.code === 200) {
-              // console.log(res.data)
-              if (res.data.data.length > 0) {
-                for (let i = 0; i < res.data.data.length; i++) {
-                  let curId = parseInt(res.data.data[i].c_id),
-                    l1name = "";
-                  _this.$store.state.categories.l1.forEach((elem) => {
-                    if (elem.id == parseInt(curId / 100)) l1name = elem.name;
-                  });
-                  if (
-                    _this.$store.state.categories.l2[parseInt(curId / 100)] !==
-                    undefined
-                  ) {
-                    _this.$store.state.categories.l2[
-                      parseInt(curId / 100)
-                    ].forEach((elem) => {
-                      if (elem.id == curId) {
-                        res.data.data[i].c_name = l1name + ">" + elem.name;
-                      }
-                    });
-                  }
-                }
-                _this.search_res = res.data.data;
-              } else {
-                _this.$message({
-                  type: "info",
-                  message: "查无相关数据",
-                  duration: 2000,
-                });
-                _this.search_res = [];
+        .catch(() => {
+          _this.$message({
+            type: 'error',
+            message: '请求后端服务器发生错误',
+            duration: 2000
+          })
+        })
+    },
+    // 获取随机tag
+    roll_tag () {
+      this.$message({
+        type: 'info',
+        message: '正在获取随机tag',
+        duration: 1000
+      })
+      const _this = this
+      // 获取categories列表
+      this.$http({
+        method: 'GET',
+        url: `${_this.$store.state.serverhost}/get_random_tag`
+      })
+        .then((res) => {
+          if (res.data.code === 200) {
+            _this.$message({
+              type: 'success',
+              message: res.data.msg,
+              duration: 2000
+            })
+            console.log(res.data)
+            _this.form.id = res.data.data.id
+            _this.form.c_id = res.data.data.c_id
+            _this.form.is_nsfw = !!res.data.data.is_nsfw
+            _this.form.name = res.data.data.name
+            _this.form.t_name = res.data.data.t_name
+            _this.form.desc = res.data.data.desc ? res.data.data.desc : ''
+            _this.form.remarks = res.data.data.remarks
+              ? res.data.data.remarks
+              : ''
+
+            _this.categories.forEach((v) => {
+              if (v.id === res.data.data.c_id) {
+                _this.form.c_name = v.name
               }
+            })
+          } else {
+            _this.$message({
+              type: 'error',
+              message: res.data.msg,
+              duration: 2000
+            })
+          }
+        })
+        .catch(() => {
+          _this.$message({
+            type: 'error',
+            message: '请求后端服务器发生错误',
+            duration: 2000
+          })
+        })
+    },
+    // 搜索tag
+    search () {
+      if (/^\s$/.test(this.searchHis)) {
+        this.$message({ type: 'error', message: '搜索词为空', duration: 2000 })
+        return
+      }
+      this.$message({ type: 'info', message: '正在检索词条', duration: 1000 })
+      for (let i = 0; i < this.searchHis.length; i++) {
+        if (this.searchHis[i].w === this.search_keyword) {
+          for (let j = i - 1; j >= 0; j--) {
+            this.searchHis[j + 1] = this.searchHis[j]
+            this.searchHis[j + 1].i--
+          }
+          this.searchHis.shift()
+          break
+        }
+      }
+      this.searchHis.unshift({
+        w: this.search_keyword,
+        i: this.searchHis.length
+      })
+      localStorage.searchHis = JSON.stringify(this.searchHis)
+      const _this = this
+      // 获取categories列表
+      this.$http({
+        method: 'POST',
+        url: `${_this.$store.state.serverhost}/search_tags`,
+        data: {
+          keyword: _this.search_keyword
+        }
+      })
+        .then((res) => {
+          if (res.data.code === 200) {
+            // console.log(res.data)
+            if (res.data.data.length > 0) {
+              for (let i = 0; i < res.data.data.length; i++) {
+                const curId = parseInt(res.data.data[i].c_id)
+                let l1name = ''
+                _this.$store.state.categories.l1.forEach((elem) => {
+                  if (elem.id === parseInt(curId / 100)) l1name = elem.name
+                })
+                if (
+                  _this.$store.state.categories.l2[parseInt(curId / 100)] !==
+                    undefined
+                ) {
+                  _this.$store.state.categories.l2[
+                    parseInt(curId / 100)
+                  ].forEach((elem) => {
+                    if (elem.id === curId) {
+                      res.data.data[i].c_name = l1name + '>' + elem.name
+                    }
+                  })
+                }
+              }
+              _this.search_res = res.data.data
             } else {
               _this.$message({
-                type: "error",
-                message: res.data.msg,
-                duration: 2000,
-              });
+                type: 'info',
+                message: '查无相关数据',
+                duration: 2000
+              })
+              _this.search_res = []
             }
-          })
-          .catch((err) => {
+          } else {
             _this.$message({
-              type: "error",
-              message: "请求后端服务器发生错误",
-              duration: 2000,
-            });
-          });
-      },
-      // 切换分页
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-        this.activeIndex = keyPath[0];
-      },
-      // 切换分类选项
-      categoryHandleSelect(item) {
-        console.log(item);
-        this.form.c_id = item.id;
-      },
-      // 检索建议列表
-      querySearch(queryString, cb) {
-        var categories = this.categories;
-        var results = queryString
-          ? categories.filter(this.createFilter(queryString))
-          : categories;
+              type: 'error',
+              message: res.data.msg,
+              duration: 2000
+            })
+          }
+        })
+        .catch(() => {
+          _this.$message({
+            type: 'error',
+            message: '请求后端服务器发生错误',
+            duration: 2000
+          })
+        })
+    },
+    // 切换分页
+    handleSelect (key, keyPath) {
+      console.log(key, keyPath)
+      this.activeIndex = keyPath[0]
+    },
+    // 切换分类选项
+    categoryHandleSelect (item) {
+      console.log(item)
+      this.form.c_id = item.id
+    },
+    // 检索建议列表
+    querySearch (queryString, cb) {
+      const categories = this.categories
+      const results = queryString
+        ? categories.filter(this.createFilter(queryString))
+        : categories
         // 调用 callback 返回建议列表的数据
-        cb(results);
-      },
-      createFilter(queryString) {
-        return (categories) => {
-          return (
-            categories.name.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
-          );
-        };
-      },
-      // 获取分类列表
-      get_categories() {
-        let _this = this;
-        // 获取categories列表
-        this.$http({
-          method: "GET",
-          url: `${_this.$store.state.serverhost}/get_categories`,
+      cb(results)
+    },
+    createFilter (queryString) {
+      return (categories) => {
+        return (
+          categories.name.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
+        )
+      }
+    },
+    // 获取分类列表
+    get_categories () {
+      const _this = this
+      // 获取categories列表
+      this.$http({
+        method: 'GET',
+        url: `${_this.$store.state.serverhost}/get_categories`
+      })
+        .then((res) => {
+          // console.log(res.data)
+          // _this.categories = res.data.data
+          _this.up_cnt = res.data.up_cnt
+          _this.ct_total = res.data.ct_total
+          // _this.$store.commit('setCategories', _this.categories)
+          _this.roll_tag()
+          const cd = res.data.contributor
+          const nlist = []
+          for (const key in cd) {
+            // console.log(key,obj[key])
+            nlist.push({ name: key, cnt: cd[key] })
+          }
+          _this.contributor_toplist = nlist
+          // TODO:该函数为过渡方案，等待替换
+          _this.get_categories_full()
         })
-          .then((res) => {
-            // console.log(res.data)
-            // _this.categories = res.data.data
-            _this.up_cnt = res.data.up_cnt;
-            _this.ct_total = res.data.ct_total;
-            // _this.$store.commit('setCategories', _this.categories)
-            _this.roll_tag();
-            let cd = res.data.contributor;
-            let nlist = [];
-            for (let key in cd) {
-              // console.log(key,obj[key])
-              nlist.push({ name: key, cnt: cd[key] });
-            }
-            _this.contributor_toplist = nlist;
-            // TODO:该函数为过渡方案，等待替换
-            _this.get_categories_full();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      },
-      // 获取完整的分类列表
-      // TODO:该函数为过渡方案，等待替换
-      get_categories_full() {
-        let _this = this;
-        // 获取categories列表
-        this.$http({
-          method: "GET",
-          url: `${_this.$store.state.serverhost}/open/get_full_categories`,
+        .catch((err) => {
+          console.log(err)
         })
-          .then((res) => {
-            // console.log(res.data)
-            _this.categories = res.data.data;
-            _this.$store.commit("setCategories", _this.categories);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      },
-      // 复制成功时的回调函数
-      onCopy(e) {
-        this.$message.success("词条名已复制到剪切板！");
-      },
-      // 复制失败时的回调函数
-      onError(e) {
-        this.$message.error("抱歉，复制失败！");
-      },
-      // 获取行信息
-      getRow(row) {
-        this.selRowData = JSON.parse(JSON.stringify(row));
-      },
-      // 点击贡献
-      toDonate() {
-        let _this = this;
-        setTimeout(() => {
-          _this.form.id = _this.selRowData.id;
-          _this.form.name = _this.selRowData.name;
-          _this.form.t_name = _this.selRowData.t_name;
-          _this.form.c_id = _this.selRowData.c_id;
-          _this.form.c_name = _this.selRowData.c_name;
-          _this.form.is_nsfw = _this.selRowData.is_nfsw ? true : false;
-          _this.form.desc = _this.selRowData.desc;
-          _this.form.remarks = _this.selRowData.remarks;
-          //_this.form.contributor = _this.selRowData.contributor
-          _this.activeIndex = "contribute";
-        }, 50);
-      },
     },
-    computed: {
-      platform() {
-        return this.$store.state.platform;
-      },
+    // 获取完整的分类列表
+    // TODO:该函数为过渡方案，等待替换
+    get_categories_full () {
+      const _this = this
+      // 获取categories列表
+      this.$http({
+        method: 'GET',
+        url: `${_this.$store.state.serverhost}/open/get_full_categories`
+      })
+        .then((res) => {
+          // console.log(res.data)
+          _this.categories = res.data.data
+          _this.$store.commit('setCategories', _this.categories)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
-    mounted() {
-      this.searchHis = JSON.parse(localStorage.searchHis || "[]");
-      this.get_categories();
+    // 复制成功时的回调函数
+    onCopy (e) {
+      this.$message.success('词条名已复制到剪切板！')
     },
-    components: {
-      categorySelector,
-      largeImageTitle,
-      searchHistory,
+    // 复制失败时的回调函数
+    onError (e) {
+      this.$message.error('抱歉，复制失败！')
     },
-  };
-  </script>
-  
+    // 获取行信息
+    getRow (row) {
+      this.selRowData = JSON.parse(JSON.stringify(row))
+    },
+    // 点击贡献
+    toDonate () {
+      const _this = this
+      setTimeout(() => {
+        _this.form.id = _this.selRowData.id
+        _this.form.name = _this.selRowData.name
+        _this.form.t_name = _this.selRowData.t_name
+        _this.form.c_id = _this.selRowData.c_id
+        _this.form.c_name = _this.selRowData.c_name
+        _this.form.is_nsfw = !!_this.selRowData.is_nfsw
+        _this.form.desc = _this.selRowData.desc
+        _this.form.remarks = _this.selRowData.remarks
+        // _this.form.contributor = _this.selRowData.contributor
+        _this.activeIndex = 'contribute'
+      }, 50)
+    }
+  },
+  computed: {
+    platform () {
+      return this.$store.state.platform
+    }
+  },
+  mounted () {
+    this.searchHis = JSON.parse(localStorage.searchHis || '[]')
+    this.get_categories()
+  },
+  components: {
+    categorySelector,
+    largeImageTitle,
+    searchHistory
+  }
+}
+</script>
+
   <style lang="scss" scoped>
   .home {
     height: 100%;
@@ -625,37 +625,37 @@
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-  
+
     .transBack {
       background-color: transparent;
       color: white;
       font-weight: bold;
       border-bottom: none;
-  
+
       .el-menu-item.is-active {
         color: white;
       }
-  
+
       .el-menu-item:hover,
       .el-menu-item:focus {
         background-color: #ffffffa0;
       }
     }
-  
+
     .collapse {
       box-sizing: border-box;
       padding: 0 28px;
       width: 100%;
     }
-  
+
     .board {
       margin-top: 5px;
     }
-  
+
     .menu {
       width: 100%;
     }
-  
+
     .container {
       box-sizing: border-box;
       padding: 16px 16px 48px;
@@ -668,7 +668,7 @@
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
-  
+
       .row {
         width: 100%;
         display: flex;
@@ -676,18 +676,18 @@
         justify-content: center;
         align-items: center;
         margin: 5px 0;
-  
+
         .el-button {
           margin-left: 4px;
         }
       }
-  
+
       .nsfw-span {
         margin: 0px 8px;
         color: #888;
         transition: all ease 0.5s;
       }
-  
+
       .search {
         height: 100%;
         width: 100%;
@@ -695,7 +695,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-  
+
         .searchTable {
           flex: 1;
           width: 100%;
@@ -709,7 +709,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-  
+
         .searchTable {
           flex: 1;
           width: 100%;
