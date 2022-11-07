@@ -1,4 +1,4 @@
-# CERF-AI 贡献站前端系统
+# novelai-manual
 
 ## Project setup
 ```

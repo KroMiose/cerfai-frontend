@@ -16,7 +16,7 @@
 
     <div class="table-view">
       <!-- 日志列表 -->
-      <el-table
+      <el-table 
         :data="logList"
         :default-sort="{ prop: 'update_time', order: 'descending' }"
         @row-click="selectLog"
@@ -36,7 +36,7 @@
               <span v-text="GMTToStr(logList[scope.$index].update_time)"></span>
           </template>
         </el-table-column>
-
+          
         <el-table-column prop="ip" label="执行者IP地址" min-width="80" sortable="custom">
           <template v-slot="scope">
             <span class="s_name_dsp">{{ logList[scope.$index].ip }}</span>
@@ -77,7 +77,7 @@
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-mobile-phone"></i><span>词条名</span>
-            </template>
+            </template> 
             <span>{{ log_selected.name }}</span>
           </el-descriptions-item>
 
@@ -164,7 +164,7 @@
 export default {
   name: 'logPanel',
   components: {},
-  data () {
+  data() {
     return {
       // 关于分页
       pageIndex: 1,
@@ -183,7 +183,7 @@ export default {
   },
   methods: {
     // 处理分页
-    handleSizeChange (val) {
+    handleSizeChange(val) {
       this.pageSize = val
       this.getLogs()
     },
@@ -192,15 +192,12 @@ export default {
       this.getLogs()
     },
     // 处理搜索
-    search () {
-
-    },
-    clear () {
+    clear() {
       this.search_keyword = ''
       this.getLogs()
     },
     // 处理日志
-    getLogs () {
+    getLogs() {
       this.$http({
         method: 'POST',
         url: `${this.$store.state.serverhost}/admin/get_record`,
@@ -220,7 +217,8 @@ export default {
             message: '获取日志列表成功',
             duration: 2000
           })
-        } else {
+        }
+        else {
           this.$message({
             type: 'error',
             message: res.data.msg,
@@ -229,15 +227,15 @@ export default {
         }
       })
     },
-    rollBackToOneLog (logId) {
+    rollBackToOneLog(logId) {
 
     },
-    rollBackLogs () {
+    rollBackLogs() {
 
     },
     // 格式化时间
     // Qzhihe 该方法能否使用 day.js 实现
-    GMTToStr (date) {
+    GMTToStr(date) {
       if (date) {
         date = new Date(date.slice(0, -4))
         const y = date.getFullYear()
@@ -252,12 +250,13 @@ export default {
         let second = date.getSeconds()
         second = second < 10 ? '0' + second : second
         return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second
-      } else {
+      }
+      else {
         return ''
       }
     },
     // 获取分类列表
-    get_categories () {
+    get_categories() {
       const _this = this
       // 获取categories列表
       this.$http({
@@ -303,7 +302,7 @@ export default {
         })
     },
     // 获取分类名
-    get_category_name (id) {
+    get_category_name(id) {
       let res = '未知分类'
       this.categories.forEach((v) => {
         if (v.id === id) {
@@ -313,10 +312,10 @@ export default {
       return res
     },
     // 详情页功能
-    selectLog (row) {
+    selectLog(row) {
       this.log_selected = JSON.parse(JSON.stringify(row))
     },
-    submitUpdate () {
+    submitUpdate() {
 
     }
   },
