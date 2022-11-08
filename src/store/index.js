@@ -6,14 +6,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     categories: [], // 分类列表
-    serverhost: 'https://api.kromiose.top:9090', // 生产环境（目前）
-    // serverhost: 'https://api.cerfai.com', // 生产环境（日志完成后迁移）
+    // serverhost: 'https://api.kromiose.top:9090', // 生产环境（目前）
+    serverhost: 'https://api.cerfai.com', // 生产环境（日志完成后迁移）
     // serverhost: 'https://dev.kromiose.top', // 开发测试环境
-    // serverhost: "http://127.0.0.1:9090", // 本地
+    // serverhost: 'http://127.0.0.1:5000', // 本地
 
     token: '',
-    // 本地开发用
-    // token: '9a58459a6ec807b112933c8c676e295e'
+    // token: '9a58459a6ec807b112933c8c676e295e',
     platform: 'pc' // 平台('pc' / 'pe') App页面加载时会自动设置
   },
   getters: {},

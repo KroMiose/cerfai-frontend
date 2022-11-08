@@ -157,6 +157,8 @@ export default {
   mounted () {
     // const _this = this
     // this.get_categories()
+
+    // 暂时关闭授权码输入
     this.openAccessInputer()
   }
 }
