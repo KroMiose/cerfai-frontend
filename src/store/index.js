@@ -8,6 +8,7 @@ export default new Vuex.Store({
     categories: [],
     serverhost: "http://dev.kromiose.top",
     // serverhost: 'http://127.0.0.1:3090',
+    searchHis: JSON.parse(localStorage.searchHis || "[]"),
     token: "",
   },
   getters: {},
@@ -32,6 +33,23 @@ export default new Vuex.Store({
     setToken(state, token) {
       state.token = token;
     },
+    appendHistory(state,history){
+      for (let i = 0; i < state.searchHis.length; i++) {
+        if (state.searchHis[i].w == history) {
+          for (let j = i - 1; j >= 0; j--) {
+            state.searchHis[j + 1] = state.searchHis[j];
+            state.searchHis[j + 1].i--;
+          }
+          state.searchHis.shift();
+          break;
+        }
+      }
+      state.searchHis.unshift({
+        w: history,
+        i: state.searchHis.length,
+      });
+      localStorage.searchHis = JSON.stringify(this.searchHis);
+    }
   },
   actions: {},
   modules: {},
