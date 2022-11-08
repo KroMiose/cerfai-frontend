@@ -4,13 +4,16 @@
       @row-click="getRow"
       :data="search_res"
       class="searchTable"
-      border
-      fit
+      :border="true"
+      stripe
       height="80%"
-      style="width: 100%"
     >
-      <el-table-column prop="name" label="词条名"></el-table-column>
-      <el-table-column prop="t_name" label="词条译名"></el-table-column>
+      <el-table-column prop="name" label="词条名">
+        <template slot-scope="scope">
+          <el-tag type="danger" size="medium">{{ scope.row.name }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="t_name" label="词条译名"> </el-table-column>
       <el-table-column prop="desc" label="描述说明"></el-table-column>
       <el-table-column prop="remark" label="备注"></el-table-column>
       <el-table-column prop="contributor" label="贡献者"></el-table-column>
@@ -21,6 +24,14 @@
           <el-button size="mini" type="primary" style="margin: 0 1px" plain
             >贡献
           </el-button>
+        </template>
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)"
+            >查看</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -42,20 +53,32 @@ export default {
     search() {
       this.search_keyword = this.$route.query.value;
       if (/^\s$/.test(this.searchHis)) {
-        this.$message({
-          type: "error",
+        this.$message.error({
+          title: "错误",
           message: "搜索词为空",
-          duration: 2000,
         });
         return;
       }
-      this.$message({
-        type: "info",
+      this.$message.info({
+        title: "操作",
         message: "正在检索词条",
-        duration: 1000,
       });
+      for (let i = 0; i < this.searchHis.length; i++) {
+        if (this.searchHis[i].w == this.search_keyword) {
+          for (let j = i - 1; j >= 0; j--) {
+            this.searchHis[j + 1] = this.searchHis[j];
+            this.searchHis[j + 1].i--;
+          }
+          this.searchHis.shift();
+          break;
+        }
+      }
+      this.searchHis.unshift({
+        w: this.search_keyword,
+        i: this.searchHis.length,
+      });
+      localStorage.searchHis = JSON.stringify(this.searchHis);
       let self = this;
-      self.$store.commit("appendHistory", this.search_keyword);
       // 获取categories列表
       this.$http({
         method: "POST",
@@ -88,11 +111,15 @@ export default {
                 }
               }
               self.search_res = res.data.data;
-            } else {
               self.$message({
-                type: "info",
-                message: "查无相关数据",
-                duration: 2000,
+                title: "完成",
+                message: "为您找到" + self.search_res.length + "条数据",
+                type: "success",
+              });
+            } else {
+              self.$message.error({
+                title: "错误",
+                message: "无法搜索到相关词条",
               });
               self.search_res = [];
             }
@@ -100,7 +127,6 @@ export default {
             self.$message({
               type: "error",
               message: res.data.msg,
-              duration: 2000,
             });
           }
         })
@@ -109,20 +135,24 @@ export default {
           self.$message({
             type: "error",
             message: "请求后端服务器发生错误",
-            duration: 2000,
           });
         });
     },
   },
   mounted() {
+    this.searchHis = JSON.parse(localStorage.searchHis || "[]");
     this.search();
   },
 };
 </script>
 
 <style scoped>
-.row {
-  margin-bottom: 10px;
+.search {
+  height: 100%;
+}
+.el-table {
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.3);
 }
 .select_box {
   height: 45px;

@@ -13,13 +13,14 @@
     "core-js": "^3.8.3",
     "d3": "^7.6.1",
     "element-ui": "^2.15.10",
+    "lottie-web": "^5.9.6",
     "vue": "^2.6.14",
     "vue-axios": "^2.1.5",
     "vue-bar-chart-race": "^1.0.2",
     "vue-clipboard2": "^0.3.3",
+    "vue-lottie": "^0.2.1",
     "vue-router": "^3.5.1",
-    "vuex": "^3.6.2",
-    "yarn": "^1.22.19"
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

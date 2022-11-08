@@ -19,7 +19,10 @@ Vue.use(VueClipboard)
 // 动画库
 import animate from "animate.css";
 Vue.use(animate);
-//oView数据可视化
+// lottie动画库
+ import lottie from "vue-lottie";
+ Vue.component("lottie", lottie);
+//数据可视化
 import * as d3 from "d3";
 Vue.prototype.$d3 = d3;
 Vue.config.productionTip = false

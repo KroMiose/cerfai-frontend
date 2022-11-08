@@ -11,9 +11,10 @@
           <h1 class="title">Novelai词条百科共享站</h1>
           <el-tag class="tag animate__animated animate__swing">Beta</el-tag>
         </div>
-        <p class="title_bottom animate__animated animate__backInUp">
-          累计收到用户贡献词条数: {{ up_cnt }},已收录总词条数: {{ ct_total }}
-        </p>
+        <div class="title_bottom animate__animated animate__backInUp">
+          <p>累计收到用户贡献词条数: {{ up_cnt }}</p>
+          <p>已收录总词条数: {{ ct_total }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -97,10 +98,9 @@ export default {
       })
         .then((res) => {
           if (res.data.code == 200) {
-            self.$message({
+            this.$message({
+              message: "Novelai项目组，欢迎你使用词条百科数据库！",
               type: "success",
-              message: 'Novelai项目组，欢迎你！',
-              duration: 2000,
             });
             console.log(res.data);
             self.form.id = res.data.data.id;
@@ -122,16 +122,14 @@ export default {
             self.$message({
               type: "error",
               message: res.data.msg,
-              duration: 2000,
             });
           }
         })
         .catch((err) => {
-          console.log(err);
-          self.$message({
-            type: "error",
-            message: "无法链接后台服务器，请刷新重试",
-            duration: 2000,
+          this.$notify({
+            title: "警告",
+            message: "无法链接后台服务器，请刷新浏览器重试",
+            type: "warning",
           });
         });
     },
@@ -157,6 +155,7 @@ export default {
 }
 .title_main {
   display: flex;
+  justify-content: center;
 }
 .tag {
   margin-top: 25px;
@@ -164,7 +163,7 @@ export default {
   border-radius: 20px;
 }
 .title {
-  font-size: 56px;
+  font-size: 26px;
   font-weight: 700;
   line-height: 64px;
   opacity: 0.8;
