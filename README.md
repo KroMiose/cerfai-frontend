@@ -1,4 +1,4 @@
-# novelai-manual
+# Novelai词条百科共享站-前端系统
 
 ## Project setup
 ```
