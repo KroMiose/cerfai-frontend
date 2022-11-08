@@ -334,10 +334,6 @@ export default {
     // 详情页功能
     selectLog (row) {
       this.log_selected = JSON.parse(JSON.stringify(row))
-    },
-    // TODO 修改日志内容，等待后端接口
-    submitUpdate () {
-
     }
   },
   mounted () {
