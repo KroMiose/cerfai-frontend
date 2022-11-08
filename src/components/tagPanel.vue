@@ -337,241 +337,241 @@
 </template>
 
 <script>
-// import tableFilter from '@/components/tableFilter.vue'
-import categorySelector from '@/components/categorySelector.vue'
+import tableFilter from "@/components/tableFilter.vue";
+import categorySelector from "@/components/categorySelector.vue";
 
 export default {
-  components: { categorySelector },
-  data () {
+  components: { tableFilter, categorySelector },
+  data() {
     return {
-      search_keyword: '',
+      search_keyword: "",
       pageIndex: 1,
       pageSize: 20,
       total: 0,
       tableData: [],
       drawer: false,
       selRowData: {},
-      sortkey: '-update_time',
+      sortkey: "-update_time",
       categories: [],
 
       showPanel: {
         date_picker: true, // 日期区间
-        order_opt: true // 排序选项
-      }
-    }
+        order_opt: true, // 排序选项
+      },
+    };
   },
   methods: {
     // 获取行信息
-    getRow (row) {
-      this.selRowData = JSON.parse(JSON.stringify(row))
-      this.cmpSelRowData = JSON.parse(JSON.stringify(row))
+    getRow(row) {
+      this.selRowData = JSON.parse(JSON.stringify(row));
+      this.cmpSelRowData = JSON.parse(JSON.stringify(row));
     },
     // 搜索tag
-    search () {
-      const _this = this
+    search() {
+      let _this = this;
       // 获取categories列表
       this.$http({
-        method: 'POST',
+        method: "POST",
         url: `${_this.$store.state.serverhost}/admin/filter_tags`,
         data: {
           keyword: _this.search_keyword,
           page: _this.pageIndex,
           limit: _this.pageSize,
           token: _this.$store.state.token,
-          order: _this.sortkey
-        }
+          order: _this.sortkey,
+        },
       })
         .then((res) => {
           if (res.data.code === 200) {
             // console.log(res.data)
             if (res.data.data.length > 0) {
-              _this.tableData = res.data.data
-              _this.total = res.data.total
+              _this.tableData = res.data.data;
+              _this.total = res.data.total;
               _this.$message({
-                type: 'success',
-                message: '获取词条列表成功',
-                duration: 2000
-              })
+                type: "success",
+                message: "获取词条列表成功",
+                duration: 2000,
+              });
             } else {
               _this.$message({
-                type: 'info',
-                message: '查无相关数据',
-                duration: 2000
-              })
-              _this.tableData = []
+                type: "info",
+                message: "查无相关数据",
+                duration: 2000,
+              });
+              _this.tableData = [];
             }
           } else {
             _this.$message({
-              type: 'error',
+              type: "error",
               message: res.data.msg,
-              duration: 2000
-            })
+              duration: 2000,
+            });
           }
         })
-        .catch(() => {
+        .catch((err) => {
           _this.$message({
-            type: 'error',
-            message: '请求后端服务器发生错误或未授权',
-            duration: 2000
-          })
-        })
+            type: "error",
+            message: "请求后端服务器发生错误或未授权",
+            duration: 2000,
+          });
+        });
     },
-    clear () {
-      this.search_keyword = ''
-      this.search()
+    clear() {
+      this.search_keyword = "";
+      this.search();
     },
-    submitUpdate () {
-      const _this = this
+    submitUpdate() {
+      const _this = this;
       // 提交修改
       this.$http({
-        method: 'POST',
+        method: "POST",
         url: `${_this.$store.state.serverhost}/admin/edit_tag`,
-        data: { ..._this.selRowData, token: _this.$store.state.token }
+        data: { ..._this.selRowData, token: _this.$store.state.token },
       })
         .then((res) => {
           if (res.data.code === 200) {
-            _this.search()
-            _this.drawer = false
+            _this.search();
+            _this.drawer = false;
             _this.$message({
-              type: 'success',
+              type: "success",
               message: res.data.msg,
-              duration: 2000
-            })
+              duration: 2000,
+            });
           } else {
             _this.$message({
-              type: 'error',
+              type: "error",
               message: res.data.msg,
-              duration: 2000
-            })
+              duration: 2000,
+            });
           }
         })
-        .catch(() => {
+        .catch((err) => {
           _this.$message({
-            type: 'error',
-            message: '请求后端服务器发生错误或未授权',
-            duration: 2000
-          })
-        })
+            type: "error",
+            message: "请求后端服务器发生错误或未授权",
+            duration: 2000,
+          });
+        });
     },
-    sort_change (v) {
-      console.log(v)
-      if (v.order === 'ascending') this.sortkey = v.prop
-      else if (v.order === 'descending') this.sortkey = '-' + v.prop
-      else this.sortkey = ''
-      this.search()
+    sort_change(v) {
+      console.log(v);
+      if (v.order === "ascending") this.sortkey = v.prop;
+      else if (v.order === "descending") this.sortkey = "-" + v.prop;
+      else this.sortkey = "";
+      this.search();
     },
-    handleSizeChange (val) {
-      this.pageSize = val
-      this.search()
+    handleSizeChange(val) {
+      this.pageSize = val;
+      this.search();
     },
-    handleCurrentChange (val) {
-      this.pageIndex = val
-      this.search()
+    handleCurrentChange(val) {
+      this.pageIndex = val;
+      this.search();
     },
     // 转换时间
-    GMTToStr (date) {
+    GMTToStr(date) {
       if (date) {
         // console.log(date)
-        date = new Date(date.slice(0, -4))
-        const y = date.getFullYear()
-        let m = date.getMonth() + 1
-        m = m < 10 ? '0' + m : m
-        let d = date.getDate()
-        d = d < 10 ? '0' + d : d
-        let h = date.getHours()
-        h = h < 10 ? '0' + h : h
-        let minute = date.getMinutes()
-        minute = minute < 10 ? '0' + minute : minute
-        let second = date.getSeconds()
-        second = second < 10 ? '0' + second : second
-        return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second
+        date = new Date(date.slice(0, -4));
+        let y = date.getFullYear();
+        let m = date.getMonth() + 1;
+        m = m < 10 ? "0" + m : m;
+        let d = date.getDate();
+        d = d < 10 ? "0" + d : d;
+        let h = date.getHours();
+        h = h < 10 ? "0" + h : h;
+        let minute = date.getMinutes();
+        minute = minute < 10 ? "0" + minute : minute;
+        let second = date.getSeconds();
+        second = second < 10 ? "0" + second : second;
+        return y + "-" + m + "-" + d + " " + h + ":" + minute + ":" + second;
       } else {
-        return ''
+        return "";
       }
     },
     // 切换分类选项
-    categoryHandleSelect (item) {
-      console.log(item)
-      this.selRowData.c_id = item.id
+    categoryHandleSelect(item) {
+      console.log(item);
+      this.selRowData.c_id = item.id;
     },
     // 检索建议列表
-    querySearch (queryString, cb) {
-      const categories = this.categories
-      const results = queryString
+    querySearch(queryString, cb) {
+      var categories = this.categories;
+      var results = queryString
         ? categories.filter(this.createFilter(queryString))
-        : categories
+        : categories;
       // 调用 callback 返回建议列表的数据
-      cb(results)
+      cb(results);
     },
-    createFilter (queryString) {
+    createFilter(queryString) {
       return (categories) => {
         return (
           categories.name.toLowerCase().indexOf(queryString.toLowerCase()) >= 0
-        )
-      }
+        );
+      };
     },
     // 获取分类列表
-    get_categories () {
-      const _this = this
+    get_categories() {
+      let _this = this;
       // 获取categories列表
       this.$http({
-        method: 'GET',
-        url: `${_this.$store.state.serverhost}/get_categories`
+        method: "GET",
+        url: `${_this.$store.state.serverhost}/get_categories`,
       })
         .then((res) => {
           // console.log(res.data)
           // _this.categories = res.data.data
-          _this.up_cnt = res.data.up_cnt
+          _this.up_cnt = res.data.up_cnt;
           // _this.categories.forEach((v, i) => {
           //   _this.categories[i].value = v.name
           // })
-          const cd = res.data.contributor
-          const nlist = []
-          for (const key in cd) {
+          let cd = res.data.contributor;
+          let nlist = [];
+          for (let key in cd) {
             // console.log(key,obj[key])
-            nlist.push({ name: key, cnt: cd[key] })
+            nlist.push({ name: key, cnt: cd[key] });
           }
-          _this.contributor_toplist = nlist
-          _this.get_categories_full()
+          _this.contributor_toplist = nlist;
+          _this.get_categories_full();
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     // 获取完整的分类列表
     // TODO:该函数为过渡方案，等待替换
-    get_categories_full () {
-      const _this = this
+    get_categories_full() {
+      let _this = this;
       // 获取categories列表
       this.$http({
-        method: 'GET',
-        url: `${_this.$store.state.serverhost}/open/get_full_categories`
+        method: "GET",
+        url: `${_this.$store.state.serverhost}/open/get_full_categories`,
       })
         .then((res) => {
           // console.log(res.data)
-          _this.categories = res.data.data
-          _this.$store.commit('setCategories', _this.categories)
+          _this.categories = res.data.data;
+          _this.$store.commit("setCategories", _this.categories);
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     // 获取分类名
-    get_category_name (id) {
-      let res = '未知分类'
+    get_category_name(id) {
+      let res = "未知分类";
       this.categories.forEach((v) => {
         if (v.id === id) {
-          res = v.name
+          res = v.name;
         }
-      })
-      return res
-    }
+      });
+      return res;
+    },
   },
-  mounted () {
-    this.search()
-    this.get_categories()
-  }
-}
+  mounted() {
+    this.search();
+    this.get_categories();
+  },
+};
 </script>
 
 <style lang="scss" scoped>

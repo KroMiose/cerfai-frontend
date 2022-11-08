@@ -1,48 +1,18 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
+    <div class="flooat animate__animated animate__jackInTheBox">
+        <a href="https://beian.miit.gov.cn/" target="_blank"
+          >闽ICP备2022015899号</a
+        >
+      </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'app',
-  methods: {
-    // 判断是否是移动端
-    _isMobile () {
-      const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
-      return flag
-    }
-  },
-  created () {
-    if (this._isMobile()) {
-      // 手机端
-      this.platform = 'pe'
-      // 设置rem
-      // window.onload = function(){
-      //   getRem(750,100)
-      // };
-      // window.onresize = function(){
-      //   getRem(750,100)
-      // };
-      // function getRem(pwidth,prem){
-      //   var html = document.getElementsByTagName("html")[0];
-      //   var oWidth = document.body.clientWidth || document.documentElement.clientWidth;
-      //   html.style.fontSize = oWidth/pwidth*prem + "px";
-      // }
-      // console.log('mobile')
-    } else {
-      // pc端
-      this.platform = 'pc'
-      // console.log('pc')
-    }
-    this.$store.commit('setPlatform', this.platform)
-  }
-}
-</script>
-
 <style lang="scss">
-#app, html, body {
+#app,
+html,
+body {
   width: 100%;
   height: 100%;
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -50,7 +20,10 @@ export default {
   margin: 0;
   padding: 0;
 }
-
+* {
+  font-family: -apple-system, PingFang SC, Microsoft YaHei, system-ui, Arial,
+    serif;
+}
 .drawer {
   padding: 30px;
   height: 100%;
@@ -77,5 +50,17 @@ export default {
   .el-table {
     flex: 1;
   }
+}
+.flooat {
+  position: fixed;
+  bottom: 20px;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+}
+.flooat > a {
+  color: #ffffff;
+  border-bottom: dotted 1px;
+  text-decoration: none;
 }
 </style>

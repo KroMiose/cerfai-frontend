@@ -14,32 +14,48 @@ export default new Vuex.Store({
     token: '',
     // token: '9a58459a6ec807b112933c8c676e295e',
     platform: 'pc' // 平台('pc' / 'pe') App页面加载时会自动设置
+    searchHis: JSON.parse(localStorage.searchHis || "[]"),
   },
   getters: {},
   mutations: {
-    setCategories (state, categoriesList) {
-      const sortedCategories = { l1: [], l2: {} }
+    setCategories(state, categoriesList) {
+      let sortedCategories = { l1: [], l2: {} };
       categoriesList.forEach((element) => {
-        if (element.level === 1) {
-          element.id = parseInt(parseInt(element.id) / 100)
-          sortedCategories.l1.push(element)
+        if (element.level == 1) {
+          element.id = parseInt(parseInt(element.id) / 100);
+          sortedCategories.l1.push(element);
         } else {
-          element.id = parseInt(element.id)
-          const parentId = parseInt(element.id / 100)
+          element.id = parseInt(element.id);
+          let parentId = parseInt(element.id / 100);
 
-          if (sortedCategories.l2[parentId] === undefined) { sortedCategories.l2[parentId] = [] }
-          sortedCategories.l2[parentId].push(element)
+          if (sortedCategories.l2[parentId] === undefined)
+            sortedCategories.l2[parentId] = [];
+          sortedCategories.l2[parentId].push(element);
         }
-      })
-      state.categories = sortedCategories
+      });
+      state.categories = sortedCategories;
     },
-    setToken (state, token) {
-      state.token = token
+    setToken(state, token) {
+      state.token = token;
     },
-    setPlatform (state, platform) {
-      state.platform = platform
+    appendHistory(state,history){
+      for (let i = 0; i < state.searchHis.length; i++) {
+        if (state.searchHis[i].w == history) {
+          for (let j = i - 1; j >= 0; j--) {
+            state.searchHis[j + 1] = state.searchHis[j];
+            state.searchHis[j + 1].i--;
+          }
+          state.searchHis.shift();
+          break;
+        }
+      }
+      state.searchHis.unshift({
+        w: history,
+        i: state.searchHis.length,
+      });
+      localStorage.searchHis = JSON.stringify(this.searchHis);
     }
   },
   actions: {},
-  modules: {}
-})
+  modules: {},
+});

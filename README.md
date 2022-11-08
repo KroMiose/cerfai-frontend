@@ -1,4 +1,4 @@
-# CERF-AI 贡献站前端系统
+# Novelai词条百科共享站-前端系统
 
 ## Project setup
 ```

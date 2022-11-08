@@ -65,106 +65,106 @@
 <script>
 export default {
   props: {
-    showPanel: Object
+    showPanel: Object,
   },
-  data () {
+  data() {
     return {
       filterVisiable: false,
       filterValue: {
         dateValue: [],
         publishtime: '',
-        order: ''
+        order: '',
       },
 
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
-          onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [start, end])
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
           }
         }, {
           text: '最近一个月',
-          onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
           }
         }, {
           text: '最近三个月',
-          onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            picker.$emit('pick', [start, end])
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
           }
         }, {
           text: '最近一年',
-          onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 365)
-            picker.$emit('pick', [start, end])
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+            picker.$emit('pick', [start, end]);
           }
         }, {
           text: '最近两年',
-          onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 365 * 2)
-            picker.$emit('pick', [start, end])
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 365 * 2);
+            picker.$emit('pick', [start, end]);
           }
         }, {
           text: '最近三年',
-          onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 365 * 3)
-            picker.$emit('pick', [start, end])
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 365 * 3);
+            picker.$emit('pick', [start, end]);
           }
         }]
       },
 
       orderOptions: [
         {
-          value: 'xxx',
-          label: 'xxx升序'
+            value: 'xxx',
+            label: 'xxx升序',
         },
         {
-          value: '-xxx',
-          label: 'xxx降序'
-        }
+            value: '-xxx',
+            label: 'xxx降序',
+        },
       ],
 
-      wechatOps: []
+      wechatOps: [],
     }
   },
-  mounted () {
+  mounted() {
     // console.log(this.showPanel)
   },
   methods: {
-    getFilter () {
+    getFilter() {
       let pub_time = ''
-      if ((this.filterValue.dateValue[0]) && this.formatDateTime(this.filterValue.dateValue[1])) {
+      if((this.filterValue.dateValue[0]) && this.formatDateTime(this.filterValue.dateValue[1])) {
         pub_time = this.formatDateTime(this.filterValue.dateValue[0]) + '_' + this.formatDateTime(this.filterValue.dateValue[1])
       }
       this.filterValue.publishtime = pub_time
       return this.filterValue
     },
     // 格式化时间成 YYYY-mm-dd
-    formatDateTime (obj) {
+    formatDateTime(obj) {
       if (obj == null) {
-        return null
+          return null
       }
-      const date = new Date(obj)
-      const y = 1900 + date.getYear()
-      const m = '0' + (date.getMonth() + 1)
-      const d = '0' + date.getDate()
-      return y + '-' + m.substring(m.length - 2, m.length) + '-' + d.substring(d.length - 2, d.length)
-    }
+      let date = new Date(obj);
+      let y = 1900 + date.getYear();
+      let m = "0" + (date.getMonth() + 1);
+      let d = "0" + date.getDate();
+      return y + "-" + m.substring(m.length - 2, m.length) + "-" + d.substring(d.length - 2, d.length);
+    },
   }
 }
 </script>
