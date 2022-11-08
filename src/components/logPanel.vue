@@ -8,7 +8,7 @@
       </el-pagination>
       <div class="row">
         <el-input v-model="search_keyword" placeholder="日志id"></el-input>
-        <el-button type="primary" icon="el-icon-search" @click="search"></el-button>
+        <el-button type="primary" icon="el-icon-search" @click="getLogs"></el-button>
         <el-button type="danger" plain icon="el-icon-close" @click="clear"></el-button>
         <!-- <tableFilter class="tableFilter" :showPanel="showPanel"></tableFilter> -->
       </div>
@@ -25,12 +25,6 @@
         fit
         border
       >
-        <el-table-column label="操作" width="90">
-          <template>
-            <el-button size="mini" type="primary" style="margin: 0 1px" @click="drawer=true" plain>详情</el-button>
-          </template>
-        </el-table-column>
-
         <el-table-column prop="update_time" label="上次更新时间" min-width="110" sortable="custom">
           <template v-slot="scope">
               <span v-text="GMTToStr(logList[scope.$index].update_time)"></span>
@@ -64,6 +58,12 @@
         </el-table-column>
 
         <el-table-column prop="update_times" label="更新次数" min-width="80" sortable="custom"></el-table-column>
+
+        <el-table-column label="操作" width="90">
+          <template>
+            <el-button size="mini" type="primary" style="margin: 0 1px" @click="drawer=true" plain>详情</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <!-- 日志详情页 -->
@@ -71,7 +71,7 @@
       <div class="drawer">
         <el-descriptions class="margin-top" title="日志详情" :column="2" size="small" border>
           <template slot="extra">
-            <el-button type="primary" size="small" @click="submitUpdate">提交修改</el-button>
+            <el-button type="danger" size="small" @click="rollBackLog(log_selected.id)">撤销变动</el-button>
           </template>
 
           <el-descriptions-item>
@@ -159,12 +159,12 @@
 
 <script>
 // import tableFilter from '@/components/tableFilter.vue'
-// import categorySelector from '@/components/categorySelector.vue'
+import categorySelector from '@/components/categorySelector.vue'
 
 export default {
   name: 'logPanel',
-  components: {},
-  data() {
+  components: { categorySelector },
+  data () {
     return {
       // 关于分页
       pageIndex: 1,
@@ -192,7 +192,7 @@ export default {
       this.getLogs()
     },
     // 处理搜索
-    clear() {
+    clear () {
       this.search_keyword = ''
       this.getLogs()
     },
@@ -227,10 +227,32 @@ export default {
         }
       })
     },
-    rollBackToOneLog(logId) {
-
+    rollBackLog (logId) {
+      this.$http({
+        method: 'POST',
+        url: `${this.$store.state.serverhost}/admin/back_to_record`,
+        data: {
+          record_id: logId,
+          token: this.$store.state.token
+        }
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message({
+            type: 'success',
+            message: '获取日志列表成功',
+            duration: 2000
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            message: res.data.msg,
+            duration: 2000
+          })
+        }
+      })
     },
-    rollBackLogs() {
+    // TODO 另设按钮和选中框进行批量回滚
+    rollBackLogs () {
 
     },
     // 格式化时间
@@ -314,9 +336,6 @@ export default {
     // 详情页功能
     selectLog(row) {
       this.log_selected = JSON.parse(JSON.stringify(row))
-    },
-    submitUpdate() {
-
     }
   },
   mounted () {

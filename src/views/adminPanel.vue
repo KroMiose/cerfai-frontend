@@ -157,9 +157,10 @@ export default {
   mounted() {
     let _this = this;
     // this.get_categories()
-    this.openAccessInputer();
-  },
-};
+    // 暂时关闭授权码输入
+    this.openAccessInputer()
+  }
+}
 </script>
 
 <style lang="scss" scoped>
