@@ -236,7 +236,7 @@ export default {
               ? res.data.data.remarks
               : "";
 
-            self.categories.forEach((v) => {
+            self.$store.state.categories.forEach((v) => {
               if (v.id == res.data.data.c_id) {
                 self.form.c_name = v.name;
               }
@@ -250,6 +250,7 @@ export default {
           }
         })
         .catch((err) => {
+          console.log(err)
           self.$notify.error({
             title: "错误",
             message: "请求服务器发生错误",

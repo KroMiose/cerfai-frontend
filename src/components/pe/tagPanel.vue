@@ -337,8 +337,8 @@
 </template>
 
 <script>
-import tableFilter from "@/components/tableFilter.vue";
-import categorySelector from "@/components/categorySelector.vue";
+import tableFilter from "@/components/pc/tableFilter.vue";
+import categorySelector from "@/components/pc/categorySelector.vue";
 
 export default {
   components: { tableFilter, categorySelector },
