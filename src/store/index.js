@@ -8,7 +8,7 @@ export default new Vuex.Store({
     categories: [],
     serverhost: "http://dev.kromiose.top",
     // serverhost: 'http://127.0.0.1:3090',
-    searchHis: JSON.parse(localStorage.searchHis || "[]"),
+    searchHis: (() => { try { return JSON.parse(localStorage.searchHis || "[]") } catch (ignore) { } finally { return [] } })(),
     token: "",
   },
   getters: {},
