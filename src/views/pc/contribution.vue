@@ -236,7 +236,7 @@ export default {
               ? res.data.data.remarks
               : "";
 
-            self.$store.state.categories.forEach((v) => {
+            (self.$store.state.categories && self.$store.state.categories.l2 ||[]).forEach((v) => {
               if (v.id == res.data.data.c_id) {
                 self.form.c_name = v.name;
               }

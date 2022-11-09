@@ -20,7 +20,8 @@
     "vue-clipboard2": "^0.3.3",
     "vue-lottie": "^0.2.1",
     "vue-router": "^3.5.1",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
