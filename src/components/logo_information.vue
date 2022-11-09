@@ -137,7 +137,6 @@ export default {
     },
   },
   mounted() {
-    this.searchHis = JSON.parse(localStorage.searchHis || "[]");
     this.get_categories();
   },
 };

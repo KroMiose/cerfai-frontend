@@ -13,8 +13,8 @@ export default new Vuex.Store({
 
     token: '',
     // token: '9a58459a6ec807b112933c8c676e295e',
-    platform: 'pc' // 平台('pc' / 'pe') App页面加载时会自动设置
-    searchHis: JSON.parse(localStorage.searchHis || "[]"),
+    platform: 'pc', // 平台('pc' / 'pe') App页面加载时会自动设置
+    searchHis: (() => { try { return JSON.parse(localStorage.searchHis || "[]") } catch (ignore) { } finally { return [] } })(),
   },
   getters: {},
   mutations: {
