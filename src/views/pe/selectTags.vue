@@ -52,7 +52,7 @@ export default {
     },
     search() {
       this.search_keyword = this.$route.query.value;
-      if (/^\s$/.test(this.searchHis)) {
+      if (/^\s*$/.test(this.search_keyword)) {
         this.$message.error({
           title: "错误",
           message: "搜索词为空",
@@ -63,21 +63,7 @@ export default {
         title: "操作",
         message: "正在检索词条",
       });
-      for (let i = 0; i < this.searchHis.length; i++) {
-        if (this.searchHis[i].w == this.search_keyword) {
-          for (let j = i - 1; j >= 0; j--) {
-            this.searchHis[j + 1] = this.searchHis[j];
-            this.searchHis[j + 1].i--;
-          }
-          this.searchHis.shift();
-          break;
-        }
-      }
-      this.searchHis.unshift({
-        w: this.search_keyword,
-        i: this.searchHis.length,
-      });
-      localStorage.searchHis = JSON.stringify(this.searchHis);
+      this.$store.commit("appendHistory", this.search_keyword);
       let self = this;
       // 获取categories列表
       this.$http({
@@ -140,7 +126,6 @@ export default {
     },
   },
   mounted() {
-    this.searchHis = JSON.parse(localStorage.searchHis || "[]");
     this.search();
   },
 };
