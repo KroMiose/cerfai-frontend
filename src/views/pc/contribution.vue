@@ -171,7 +171,8 @@ export default {
     },
     // 获取行信息
     getRow(row) {
-      this.selRowData = JSON.parse(JSON.stringify(row));
+      //用于响应式变量解绑
+      return JSON.parse(JSON.stringify(row));
     },
     // 提交tag
     onSubmit() {
@@ -257,6 +258,23 @@ export default {
           });
         });
     },
+  },
+  mounted() {
+    if (this.$route.query.fromTable) {
+      let row = this.getRow(this.$store.state.toSetFormData || {});
+      this.form.id = row.id
+      this.form.name = row.name
+      this.form.t_name = row.t_name
+      this.form.c_id = row.c_id
+      this.form.c_name = row.c_name
+      this.form.is_nsfw = row.is_nfsw ? true : false
+      this.form.desc = row.desc
+      this.form.remarks = row.remarks
+      //this.form.contributor = this.selRowData.contributor
+      this.$store.commit("toSetFormData", {});
+    } else {
+      roll_tag();
+    }
   },
   components: {
     categorySelector,

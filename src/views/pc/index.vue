@@ -5,90 +5,49 @@
         <logo_information v-if="logo_information"></logo_information>
       </transition>
       <div :class="menu_class">
-        <el-button
-          class="but but1 animate__animated animate__fadeInUp"
-          type="primary"
-          @click="contribution"
-          round
-          ><i class="fa fa-heart" aria-hidden="true"></i> 参与贡献</el-button
-        >
-        <div
-          class="select_box animate__animated animate__fadeInUp"
-          :class="{
-            box_open: search_state || search_his_state || search_keyword,
-          }"
-        >
+        <el-button class="but but1 animate__animated animate__fadeInUp" type="primary" @click="contribution" round><i
+            class="fa fa-heart" aria-hidden="true"></i> 参与贡献</el-button>
+        <div class="select_box animate__animated animate__fadeInUp" :class="{
+          box_open: search_state || search_his_state || search_keyword,
+        }">
           <i class="fa fa fa-search"></i>
-          <input
-            class="tbox"
-            @focus="search_state = true"
-            @blur="search_state = false"
-            v-model="search_keyword"
-            @keyup.enter="search"
-            placeholder="请输入词条名"
-          />
+          <input class="tbox" @focus="search_state = true" @blur="search_state = false" v-model="search_keyword"
+            @keyup.enter="search" placeholder="请输入词条名" />
           <button class="btn" type="button" name="button" @click="search">
             搜索词条
           </button>
         </div>
         <el-dropdown trigger="click" @command="r">
-          <el-button
-            type="primary"
-            class="but but3 animate__animated animate__fadeInUp"
-          >
+          <el-button type="primary" class="but but3 animate__animated animate__fadeInUp">
             <i class="fa fa-cubes" aria-hidden="true"></i> 更多菜单
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="/List"
-              ><i class="fa fa-heartbeat" aria-hidden="true"></i>
-              贡献榜单</el-dropdown-item
-            >
-            <el-dropdown-item command="/Share"
-              ><i class="fa fa-rocket" aria-hidden="true"></i>
-              共享计划</el-dropdown-item
-            >
-            <el-dropdown-item command="/about"
-              ><i class="fa fa-wheelchair-alt" aria-hidden="true"></i>
-              关于本站</el-dropdown-item
-            >
+            <el-dropdown-item command="/List"><i class="fa fa-heartbeat" aria-hidden="true"></i>
+              贡献榜单</el-dropdown-item>
+            <el-dropdown-item command="/Share"><i class="fa fa-rocket" aria-hidden="true"></i>
+              共享计划</el-dropdown-item>
+            <el-dropdown-item command="/about"><i class="fa fa-wheelchair-alt" aria-hidden="true"></i>
+              关于本站</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-button
-          v-if="!logo_information"
-          class="but but4 animate__animated animate__fadeInUp"
-          type="primary"
-          @click="home"
-          round
-          ><i class="fa fa-home" aria-hidden="true"></i> 返回首页</el-button
-        >
+        <el-button v-if="!logo_information" class="but but4 animate__animated animate__fadeInUp" type="primary"
+          @click="home" round><i class="fa fa-home" aria-hidden="true"></i> 返回首页</el-button>
       </div>
       <el-collapse-transition>
         >
-        <search-history
-          @mouseover="search_his_state = true"
-          @mouseout="search_his_state = false"
-          v-show="search_state"
-          :datas="$store.state.searchHis"
-          @select="
+        <search-history @mouseover="search_his_state = true" @mouseout="search_his_state = false" v-show="search_state"
+          :datas="$store.state.searchHis" @select="
             (k) => {
               (this.search_keyword = k), this.search();
             }
-          "
-          @clear="clearHistory"
-        ></search-history>
+          " @clear="clearHistory"></search-history>
       </el-collapse-transition>
-      <router-view
-        :key="key"
-        v-if="!logo_information"
-        class="animate__animated animate__fadeInUp animate__slow"
-      />
+      <router-view :key="key" v-if="!logo_information" class="animate__animated animate__fadeInUp animate__slow" />
       <el-dialog title="共享计划" :visible.sync="Share" width="30%">
         <div>
           <p>
             NovelAI词条百科共享站 - 数据开放平台 根据
-            <a href="https://www.bilibili.com/read/cv19252957" target="_blank"
-              >NovelAI信息并联计划公约</a
-            >
+            <a href="https://www.bilibili.com/read/cv19252957" target="_blank">NovelAI信息并联计划公约</a>
             约定：
           </p>
           <p>
@@ -100,9 +59,7 @@
           <p>
             本站提供接口详见
             <a
-              href="https://console-docs.apipost.cn/preview/dbc3a0be7aff05cb/526a9c13fe093c2c?target_id=632986c9-4ce6-4b50-b6b8-409e41be0c4b"
-              >接口文档</a
-            >
+              href="https://console-docs.apipost.cn/preview/dbc3a0be7aff05cb/526a9c13fe093c2c?target_id=632986c9-4ce6-4b50-b6b8-409e41be0c4b">接口文档</a>
           </p>
           <p>本站交流群：660612010</p>
           <p>
@@ -120,9 +77,7 @@
         <div>
           <div>
             本站皆在建立novelai中所包含的词条百科数据库，为广大魔导师提供词条贡献平台，所有收集的数据在收集整理后免费公开，为novelai开源生态建立数据仓库基础，为各大开发者提供<strong
-              style="color: #e55"
-              >数据接口服务</strong
-            >（详见"共享计划"），如果您有其他数据源或者自行整理的词条信息，并且希望参与本站建设，可以直接联系我们进行批量数据导入<br />
+              style="color: #e55">数据接口服务</strong>（详见"共享计划"），如果您有其他数据源或者自行整理的词条信息，并且希望参与本站建设，可以直接联系我们进行批量数据导入<br />
             联系方式： 621816415(洛儿)<br />
             本站交流群：660612010
           </div>
@@ -185,7 +140,10 @@ export default {
       this.key++;
       this.logo_information = false;
       this.menu_class = "menu2 animate__animated animate__backInUp";
-      this.$router.push("/contribution");
+      this.$router.push({
+        path: "/contribution",
+        query: { fromTable: 0 },
+      });
     },
     search() {
       this.key++;
@@ -208,6 +166,7 @@ export default {
 
 <style scoped>
 @import url(https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css);
+
 .main {
   overflow: hidden;
   position: absolute;
@@ -220,6 +179,7 @@ export default {
   /* align-items: center; */
   justify-content: center;
 }
+
 .menu {
   transition: all 3s;
   display: flex;
@@ -227,6 +187,7 @@ export default {
   align-items: center;
   z-index: 2;
 }
+
 .menu2 {
   z-index: 2;
   align-items: center;
@@ -238,33 +199,41 @@ export default {
   left: 0;
   width: 100%;
 }
+
 .plus-icon-enter-active {
   animation: axisX 0.5s;
 }
+
 .plus-icon-leave-active {
   animation: axisX 0.5s reverse;
 }
+
 @keyframes axisX {
   from {
     transform: translateY(-100%);
   }
+
   to {
     transform: translateY(0px);
   }
 }
+
 .cent {
   margin-top: 7%;
   width: 800px;
   transition: all 1s linear;
 }
+
 .but {
   border-radius: 20px;
   margin: 5px;
 }
+
 .but1 {
   background: #e889df;
   border: 1px solid #e889df;
 }
+
 .but1:hover,
 .but1:focus {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.3);
@@ -272,11 +241,13 @@ export default {
   border: 1px solid #c777bf;
   transition: all 1s;
 }
+
 .but2 {
   background: #ff9665;
   border: 1px solid #ff9665;
   color: white;
 }
+
 .but2:hover,
 .but2:focus {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.3);
@@ -284,12 +255,14 @@ export default {
   border: 1px solid #fa834b;
   transition: all 1s;
 }
+
 .but3 {
   background: rgb(255, 255, 255);
   border: 1px solid rgb(255, 255, 255);
   color: #475669;
   transition: all 0.5s;
 }
+
 .but3:hover,
 .but3:focus {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.3);
@@ -297,12 +270,14 @@ export default {
   border: 1px solid rgb(255, 255, 255);
   color: #475669;
 }
+
 .but4 {
   background: rgb(152, 252, 194);
   border: 1px solid rgb(152, 252, 194);
   color: #475669;
   transition: all 0.5s;
 }
+
 .but4:hover,
 .but4:focus {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.3);
@@ -310,13 +285,16 @@ export default {
   border: 1px solid rgb(121, 255, 177);
   color: #475669;
 }
+
 /* 动画 */
 .but1 {
   animation-delay: 1.2s;
 }
+
 .select_box {
   animation-delay: 1.5s;
 }
+
 .but3 {
   animation-delay: 1.7s;
 }
@@ -329,32 +307,38 @@ export default {
   color: #fff;
   border-radius: 20px;
 }
+
 .select_box i {
   border-radius: 20px 0 0 20px;
   background: #fd4b4b;
   width: 40px;
   line-height: 40px;
 }
+
 .tbox,
 .btn {
   border: none;
   outline: none;
 }
+
 .tbox {
   width: 0px;
   transition: 0.6s;
 }
-.select_box:hover > .tbox,
+
+.select_box:hover>.tbox,
 .tbox:focus {
   width: 200px;
   padding: 0 10px;
   transition: width 1s;
 }
+
 .select_box:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.3);
   background: #ff8260;
   transition: all 1s;
 }
+
 .btn {
   border-radius: 0 20px 20px 0;
   background: #fd8b6b;
@@ -364,6 +348,7 @@ export default {
   cursor: pointer;
   width: 100px;
 }
+
 .fa {
   text-align: center;
 }

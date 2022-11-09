@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    categories: [], // 分类列表
+    categories: {l1:[],l2:[]}, // 分类列表
     // serverhost: 'https://api.kromiose.top:9090', // 生产环境（目前）
     // serverhost: 'https://api.cerfai.com', // 生产环境（日志完成后迁移）
     serverhost: 'https://dev.kromiose.top', // 开发测试环境
@@ -15,6 +15,7 @@ export default new Vuex.Store({
     // token: '9a58459a6ec807b112933c8c676e295e',
     platform: 'pc', // 平台('pc' / 'pe') App页面加载时会自动设置
     searchHis: (() => { try { return JSON.parse(localStorage.searchHis || "[]") } catch (ignore) { } finally { return [] } })(),
+    toSetFormData:{}
   },
   getters: {},
   mutations: {
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     },
     setToken(state, token) {
       state.token = token;
+    },
+    storeFormRow(state,row){
+      state.toSetFormData=row;
     },
     appendHistory(state, history) {
       for (let i = 0; i < state.searchHis.length; i++) {

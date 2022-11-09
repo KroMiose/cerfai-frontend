@@ -48,7 +48,8 @@ export default {
   },
   methods: {
     getRow(row) {
-      this.selRowData = JSON.parse(JSON.stringify(row));
+      //用于响应式变量解绑
+      return JSON.parse(JSON.stringify(row));
     },
     search() {
       this.search_keyword = this.$route.query.value;
@@ -124,6 +125,13 @@ export default {
           });
         });
     },
+    handleDelete(id,row){
+      this.$store.state.toSetFormData=this.getRow(row);
+      this.$router.push({
+        path: "/contribution",
+        query: { fromTable:1 },
+      });
+    }
   },
   mounted() {
     this.search();

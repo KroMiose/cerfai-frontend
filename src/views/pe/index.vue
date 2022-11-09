@@ -187,7 +187,10 @@ export default {
       this.key++;
       this.logo_information = false;
       this.menu_class = "menu2 animate__animated animate__backInUp";
-      this.$router.push("/contribution_pe");
+      this.$router.push({
+        path: "/contribution_pe",
+        query: { fromTable: 0 },
+      });
     },
     search() {
       this.key++;

@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     getRow(row) {
-      this.selRowData = JSON.parse(JSON.stringify(row));
+      return JSON.parse(JSON.stringify(row));
     },
     search() {
       this.search_keyword = this.$route.query.value;
@@ -123,6 +123,13 @@ export default {
             message: "请求后端服务器发生错误",
           });
         });
+    },
+    handleDelete(id, row) {
+      this.$store.commit("toSetFormData", this.getRow(row));
+      this.$router.push({
+        path: "/contribution",
+        query: { fromTable: 1 },
+      });
     },
   },
   mounted() {
