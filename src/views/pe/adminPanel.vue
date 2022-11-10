@@ -49,8 +49,8 @@
 </template>
 
 <script>
-import tagPanel from "@/components/tagPanel.vue";
-import logPanel from "@/components/logPanel.vue";
+import tagPanel from "@/components/pe/tagPanel.vue";
+import logPanel from "@/components/pe/logPanel.vue";
 
 export default {
   components: { tagPanel, logPanel },
@@ -157,10 +157,9 @@ export default {
   mounted() {
     let _this = this;
     // this.get_categories()
-    // 暂时关闭授权码输入
-    this.openAccessInputer()
-  }
-}
+    this.openAccessInputer();
+  },
+};
 </script>
 
 <style lang="scss" scoped>

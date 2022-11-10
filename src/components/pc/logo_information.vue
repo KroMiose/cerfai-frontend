@@ -97,10 +97,10 @@ export default {
       })
         .then((res) => {
           if (res.data.code == 200) {
-            self.$message({
+            self.$notify({
+              title: "欢迎！",
+              message: "Novelai项目组，欢迎你使用词条百科数据库！",
               type: "success",
-              message: 'Novelai项目组，欢迎你！',
-              duration: 2000,
             });
             console.log(res.data);
             self.form.id = res.data.data.id;
@@ -122,16 +122,14 @@ export default {
             self.$message({
               type: "error",
               message: res.data.msg,
-              duration: 2000,
             });
           }
         })
         .catch((err) => {
-          console.log(err);
-          self.$message({
-            type: "error",
-            message: "无法链接后台服务器，请刷新重试",
-            duration: 2000,
+          this.$notify({
+            title: "警告",
+            message: "无法链接后台服务器，请刷新浏览器重试",
+            type: "warning",
           });
         });
     },

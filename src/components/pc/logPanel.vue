@@ -158,9 +158,8 @@
 </template>
 
 <script>
-// import tableFilter from '@/components/tableFilter.vue'
-import categorySelector from '@/components/categorySelector.vue'
-
+// import tableFilter from '@/components/pc/tableFilter.vue'
+import categorySelector from '@/components/pc/categorySelector.vue'
 export default {
   name: 'logPanel',
   components: { categorySelector },
@@ -211,7 +210,6 @@ export default {
         if (res.data.code === 200) {
           this.logList = res.data.data.data
           this.total = res.data.data.total
-
           this.$message({
             type: 'success',
             message: '获取日志列表成功',
@@ -253,7 +251,6 @@ export default {
     },
     // TODO 另设按钮和选中框进行批量回滚
     rollBackLogs () {
-
     },
     // 格式化时间
     // Qzhihe 该方法能否使用 day.js 实现
@@ -350,7 +347,6 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-
   .row {
     box-sizing: border-box;
     width: 100%;
@@ -359,22 +355,18 @@ export default {
     justify-content: space-between;
     align-items: center;
     margin: 5px 0;
-
     .pagination {
       box-sizing: border-box;
     }
-
     .row {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
       max-width: 500px;
-
       .el-button {
         margin-left: 4px;
       }
-
       .tableFilter {
         margin-left: 4px;
       }
@@ -384,7 +376,6 @@ export default {
     width: 99%;
     flex: 1;
     overflow: hidden;
-
     .s_name_dsp {
       display: -webkit-box;
       -webkit-box-orient: vertical;

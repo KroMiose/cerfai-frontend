@@ -82,9 +82,12 @@
           <span class="nsfw-span" style="color: #e66" v-show="form.is_nsfw"
             >　这是一个包含工作场所不宜内容的词条</span
           >
-          <span class="nsfw-span" style="color: rgb(37, 211, 95);" v-show="!form.is_nsfw"
-            >　这是一个任何场所安全的词条 </span
-          >
+          <span
+            class="nsfw-span"
+            style="color: rgb(37, 151, 95)"
+            v-show="!form.is_nsfw"
+            >　这是一个任何场所安全的词条
+          </span>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">提交</el-button>
@@ -126,7 +129,7 @@
 </template>
 
 <script>
-import categorySelector from "@/components/categorySelector.vue";
+import categorySelector from "@/components/pe/categorySelector.vue";
 export default {
   data() {
     return {
@@ -144,22 +147,32 @@ export default {
         contributor: "",
       },
       form_rule: {
-        contributor: [ { required: true, message: '请输您的昵称', trigger: 'blur' },],
+        contributor: [
+          { required: true, message: "请输您的昵称", trigger: "blur" },
+        ],
       },
     };
   },
   methods: {
     // 复制成功时的回调函数
     onCopy(e) {
-      this.$message.success("词条名已复制到剪切板！");
+      this.$message({
+        title: "操作",
+        message: "词条名已复制到剪切板！",
+        type: "success",
+      });
     },
     // 复制失败时的回调函数
     onError(e) {
-      this.$message.error("抱歉，复制失败！");
+      this.$message.error({
+        title: "操作",
+        message: "复制失败！",
+      });
     },
     // 获取行信息
     getRow(row) {
-      this.selRowData = JSON.parse(JSON.stringify(row));
+      //用于响应式变量解绑
+      return JSON.parse(JSON.stringify(row));
     },
     // 提交tag
     onSubmit() {
@@ -175,32 +188,30 @@ export default {
         .then((res) => {
           if (res.data.code == 200) {
             self.$message({
-              type: "success",
+              title: "成功",
               message: res.data.msg,
-              duration: 2000,
+              type: "success",
             });
           } else {
-            self.$message({
-              type: "error",
+            self.$message.error({
+              title: "错误",
               message: res.data.msg,
-              duration: 2000,
             });
           }
         })
         .catch((err) => {
-          self.$message({
-            type: "error",
-            message: "请求后端服务器发生错误",
-            duration: 2000,
+          self.$message.error({
+            title: "错误",
+            message: "请求服务器发生错误",
           });
         });
     },
     // 获取随机tag
     roll_tag() {
       this.$message({
-        type: "info",
+        title: "操作",
         message: "正在获取随机tag",
-        duration: 1000,
+        type: "warning",
       });
       let self = this;
       // 获取categories列表
@@ -211,9 +222,9 @@ export default {
         .then((res) => {
           if (res.data.code == 200) {
             self.$message({
-              type: "success",
+              title: "成功",
               message: res.data.msg,
-              duration: 2000,
+              type: "success",
             });
             console.log(res.data);
             self.form.id = res.data.data.id;
@@ -226,7 +237,7 @@ export default {
               ? res.data.data.remarks
               : "";
 
-            (self.$store.state.categories.l2[""+parseInt(res.data.data.c_id/100)]||[]).forEach((v) => {
+            (self.$store.state.categories.l2 && self.$store.state.categories.l2[parseInt(res.data.data.c_id/100)] || []).forEach((v) => {
               if (v.id == res.data.data.c_id) {
                 self.form.c_name = v.name;
               }
@@ -240,16 +251,33 @@ export default {
           }
         })
         .catch((err) => {
-          self.$message({
-            type: "error",
-            message: "请求后端服务器发生错误",
-            duration: 2000,
+          self.$message.error({
+            title: "错误",
+            message: "请求服务器发生错误",
           });
         });
     },
   },
   components: {
     categorySelector,
+  },
+  mounted(){
+    if (this.$route.query.fromTable){
+      let row = this.getRow(this.$store.state.toSetFormData || {});
+      _this.form.id = row.id
+      _this.form.name = row.name
+      _this.form.t_name = row.t_name
+      _this.form.c_id = row.c_id
+      _this.form.c_name = row.c_name
+      _this.form.is_nsfw = row.is_nfsw ? true : false
+      _this.form.desc = row.desc
+      _this.form.remarks = row.remarks
+      //_this.form.contributor = _this.selRowData.contributor
+      _this.activeIndex = 'contribute'
+      this.$store.commit("toSetFormData",{});
+    }else{
+      roll_tag();
+    }
   },
 };
 </script>
@@ -261,9 +289,10 @@ export default {
   justify-self: center;
 }
 .contributePage {
-  width: 100%;
+  width: 98%;
+  margin-top: 20%;
 }
-.tag{
+.tag {
   width: 70px;
 }
 </style>

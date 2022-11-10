@@ -1,9 +1,9 @@
 <template>
   <el-row class="historyBox">
     <el-col :span="3">
-      <span><i class="el-icon-time"></i>历史记录:</span>
+      <span class="text"><i class="el-icon-time"></i></span>
     </el-col>
-    <el-col :span="20">
+    <el-col :span="19">
       <div class="histories" :class="{ lh: extended }">
         <el-tag
           class="history-block"
@@ -17,7 +17,7 @@
         </el-tag>
       </div>
     </el-col>
-    <el-col :span="1">
+    <el-col :span="2">
       <div class="control">
         <el-button
           icon="el-icon-arrow-up"
@@ -90,6 +90,7 @@ export default {
 }
 .histories {
   padding: 5px;
+  display: flex;
 }
 .history-block {
   margin: 3px;
@@ -97,5 +98,8 @@ export default {
 }
 .history-block:hover {
   text-decoration: underline;
+}
+.text{
+  color: #475669;
 }
 </style>

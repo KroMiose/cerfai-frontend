@@ -7,8 +7,9 @@
       <div :class="menu_class">
         <el-button class="but but1 animate__animated animate__fadeInUp" type="primary" @click="contribution" round><i
             class="fa fa-heart" aria-hidden="true"></i> 参与贡献</el-button>
-        <div class="select_box animate__animated animate__fadeInUp"
-          :class="{ 'box_open': search_state || search_his_state || search_keyword }">
+        <div class="select_box animate__animated animate__fadeInUp" :class="{
+          box_open: search_state || search_his_state || search_keyword,
+        }">
           <i class="fa fa fa-search"></i>
           <input class="tbox" @focus="search_state = true" @blur="search_state = false" v-model="search_keyword"
             @keyup.enter="search" placeholder="请输入词条名" />
@@ -23,9 +24,9 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="/List"><i class="fa fa-heartbeat" aria-hidden="true"></i>
               贡献榜单</el-dropdown-item>
-            <el-dropdown-item><i class="fa fa-rocket" aria-hidden="true"></i>
+            <el-dropdown-item command="/Share"><i class="fa fa-rocket" aria-hidden="true"></i>
               共享计划</el-dropdown-item>
-            <el-dropdown-item><i class="fa fa-wheelchair-alt" aria-hidden="true"></i>
+            <el-dropdown-item command="/about"><i class="fa fa-wheelchair-alt" aria-hidden="true"></i>
               关于本站</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -33,23 +34,71 @@
           @click="home" round><i class="fa fa-home" aria-hidden="true"></i> 返回首页</el-button>
       </div>
       <el-collapse-transition>
-        <div @mouseover="search_his_state = true" @mouseout="search_his_state = false"
-          v-show="search_state || search_his_state || search_keyword">
-          <search-history :datas="$store.state.searchHis" @select="
+        >
+        <search-history @mouseover="search_his_state = true" @mouseout="search_his_state = false" v-show="search_state"
+          :datas="$store.state.searchHis" @select="
             (k) => {
               (this.search_keyword = k), this.search();
             }
           " @clear="clearHistory"></search-history>
-        </div>
       </el-collapse-transition>
       <router-view :key="key" v-if="!logo_information" class="animate__animated animate__fadeInUp animate__slow" />
+      <el-dialog title="共享计划" :visible.sync="Share" width="30%">
+        <div>
+          <p>
+            NovelAI词条百科共享站 - 数据开放平台 根据
+            <a href="https://www.bilibili.com/read/cv19252957" target="_blank">NovelAI信息并联计划公约</a>
+            约定：
+          </p>
+          <p>
+            共享站所有词条数据资源来源于用户/网络搜集，免费服务于所有用户，任何个人/团队均可免费使用本站资源于任何
+            <strong style="color: #e55">非商用/非盈利目的</strong> 项目<br />
+            您只需要联系本站开发团队任意成员，提供 "任意联系方式", "应用名"
+            即可免费获取本站的数据源访问token，用于您的开发项目中
+          </p>
+          <p>
+            本站提供接口详见
+            <a
+              href="https://console-docs.apipost.cn/preview/dbc3a0be7aff05cb/526a9c13fe093c2c?target_id=632986c9-4ce6-4b50-b6b8-409e41be0c4b">接口文档</a>
+          </p>
+          <p>本站交流群：660612010</p>
+          <p>
+            PS:由于开发任务繁重、人手有限，页面样式未有充足时间进行美化，如果您有一技之长希望加入我们，欢迎加入交流群共议
+          </p>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" class="but but2" @click="Share = false">
+            <i class="fa fa-bullseye" aria-hidden="true"></i>
+            已 读
+          </el-button>
+        </span>
+      </el-dialog>
+      <el-dialog title="关于本站" :visible.sync="about" width="30%">
+        <div>
+          <div>
+            本站皆在建立novelai中所包含的词条百科数据库，为广大魔导师提供词条贡献平台，所有收集的数据在收集整理后免费公开，为novelai开源生态建立数据仓库基础，为各大开发者提供<strong
+              style="color: #e55">数据接口服务</strong>（详见"共享计划"），如果您有其他数据源或者自行整理的词条信息，并且希望参与本站建设，可以直接联系我们进行批量数据导入<br />
+            联系方式： 621816415(洛儿)<br />
+            本站交流群：660612010
+          </div>
+          <div>
+            参与贡献基本原则：在不破坏他人劳动成果的前提下，对词条原有信息做任何有效补充均可视为有效贡献
+          </div>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" class="but but2" @click="about = false">
+            <i class="fa fa-moon-o" aria-hidden="true"></i>
+            确 认
+          </el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import logo_information from "@/components/logo_information.vue";
-import searchHistory from "@/components/searchHistory.vue";
+import logo_information from "@/components/pc/logo_information.vue";
+import searchHistory from "@/components/pc/searchHistory.vue";
 export default {
   data() {
     return {
@@ -60,15 +109,24 @@ export default {
       search_his_state: false,
       search_keyword: "",
       key: 0,
+      Share: false,
+      about: false,
     };
   },
   components: {
     logo_information,
     searchHistory,
   },
-
   methods: {
     r(path) {
+      if (path == "/Share") {
+        this.Share = !this.Share;
+        return;
+      }
+      if (path == "/about") {
+        this.about = !this.about;
+        return;
+      }
       this.key++;
       this.logo_information = false;
       this.menu_class = "menu2 animate__animated animate__backInUp";
@@ -82,7 +140,10 @@ export default {
       this.key++;
       this.logo_information = false;
       this.menu_class = "menu2 animate__animated animate__backInUp";
-      this.$router.push("/contribution");
+      this.$router.push({
+        path: "/contribution",
+        query: { fromTable: 0 },
+      });
     },
     search() {
       this.key++;
@@ -97,7 +158,7 @@ export default {
       this.key++;
       this.logo_information = true;
       this.menu_class = "menu animate__animated animate__fadeInDown";
-      this.$router.push("/");
+      this.$router.push("/index");
     },
   },
 };
@@ -107,12 +168,12 @@ export default {
 @import url(https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css);
 
 .main {
+  overflow: hidden;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  overflow-y: auto;
   background: linear-gradient(270deg, hsla(271, 100%, 86%, 0.62), #6089f86e);
   display: flex;
   /* align-items: center; */
@@ -178,6 +239,20 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.3);
   background: #c777bf;
   border: 1px solid #c777bf;
+  transition: all 1s;
+}
+
+.but2 {
+  background: #ff9665;
+  border: 1px solid #ff9665;
+  color: white;
+}
+
+.but2:hover,
+.but2:focus {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.3);
+  background: #fa834b;
+  border: 1px solid #fa834b;
   transition: all 1s;
 }
 
@@ -252,7 +327,6 @@ export default {
 }
 
 .select_box:hover>.tbox,
-.select_box.box_open>.tbox,
 .tbox:focus {
   width: 200px;
   padding: 0 10px;
