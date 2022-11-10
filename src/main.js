@@ -17,8 +17,8 @@ Vue.use(VueAxios, axios)
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
 // 动画库
-import animate from "animate.css";
-Vue.use(animate);
+import "animate.css";
+// Vue.use(animate);
 // lottie动画库
  import lottie from "vue-lottie";
  Vue.component("lottie", lottie);
