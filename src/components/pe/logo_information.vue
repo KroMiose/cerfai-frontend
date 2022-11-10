@@ -99,7 +99,7 @@ export default {
         .then((res) => {
           if (res.data.code == 200) {
             this.$message({
-              message: "Novelai项目组，欢迎你使用词条百科数据库！",
+              message: "您好，欢迎你使用词条百科数据库！",
               type: "success",
             });
             console.log(res.data);
