@@ -141,6 +141,10 @@ export default {
 <style scoped>
 .search {
   height: 100%;
+  max-width: 100%;
+}
+.search .searchTable {
+  max-width: 100%;
 }
 .el-table {
   border-radius: 20px;

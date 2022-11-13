@@ -260,6 +260,7 @@ export default {
 .cent {
   margin-top: 7%;
   width: 800px;
+  max-width: 100%;
   transition: all 1s linear;
 }
 .but {
