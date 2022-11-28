@@ -4,6 +4,7 @@
         :value="value" 
         :options="options" 
         filterable 
+        clearable
         @change="valueChanged" 
         separator=">"
     ></el-cascader>

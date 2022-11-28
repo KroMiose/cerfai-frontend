@@ -1,6 +1,6 @@
 <template>
     <el-cascader placeholder="选择分类" :value="value" :options="options" filterable
-        v-on:change="valueChanged" separator=">">
+        v-on:change="valueChanged" clearable separator=">">
     </el-cascader>
 </template>
 <script>

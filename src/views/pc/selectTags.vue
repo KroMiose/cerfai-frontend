@@ -55,13 +55,13 @@ export default {
     search() {
       this.category_id = this.$route.query.c_id
       this.search_keyword = this.$route.query.keyword;
-      if (/^\s*$/.test(this.search_keyword)) {
-        this.$notify.error({
-          title: "错误",
-          message: "搜索词为空",
-        });
-        return;
-      }
+      // if (/^\s*$/.test(this.search_keyword)) {
+      //   this.$notify.error({
+      //     title: "错误",
+      //     message: "搜索词为空",
+      //   });
+      //   return;
+      // }
       this.$notify.info({
         title: "操作",
         message: "正在检索",
