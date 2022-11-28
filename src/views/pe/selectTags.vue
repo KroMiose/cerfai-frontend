@@ -44,6 +44,7 @@ export default {
     return {
       search_res: [],
       search_keyword: "",
+      category_id: ''
     };
   },
   methods: {
@@ -52,6 +53,7 @@ export default {
     },
     search() {
       this.search_keyword = this.$route.query.value;
+      this.category_id = this.$route.query.c_id
       if (/^\s*$/.test(this.search_keyword)) {
         this.$message.error({
           title: "错误",
@@ -71,6 +73,7 @@ export default {
         url: `${self.$store.state.serverhost}/search_tags`,
         data: {
           keyword: self.search_keyword,
+          category_id: self.category_id
         },
       })
         .then((res) => {

@@ -18,11 +18,9 @@
             <span>词条贡献站</span>
           </template>
           <el-menu-item index="1-1">词条管理面板</el-menu-item>
-          <!-- Qzhihe 2022-10-26 -->
           <el-menu-item index="1-2">词条分组管理面板</el-menu-item>
           <el-menu-item index="1-3">词条导出/导入面板</el-menu-item>
           <el-menu-item index="1-4">日志管理面板</el-menu-item>
-          <!--  -->
         </el-submenu>
       </el-menu>
     </div>
@@ -44,6 +42,11 @@
         v-if="active_page === '1-4'"
         class="panel"
       ></logPanel>
+      <groupPanel
+        ref="logPanel"
+        v-if="active_page === '1-4'"
+        class="panel"
+      ></groupPanel>
     </div>
   </div>
 </template>
@@ -51,9 +54,10 @@
 <script>
 import tagPanel from "@/components/pc/tagPanel.vue";
 import logPanel from "@/components/pc/logPanel.vue";
+import groupPanel from "@/components/pc/groupPanel.vue";
 
 export default {
-  components: { tagPanel, logPanel },
+  components: { tagPanel, logPanel, groupPanel },
   data() {
     return {
       panelTitle: "词条管理页面",
