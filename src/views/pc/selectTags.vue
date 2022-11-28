@@ -44,6 +44,7 @@ export default {
     return {
       search_res: [],
       search_keyword: "",
+      category_id: ''
     };
   },
   methods: {
@@ -52,7 +53,8 @@ export default {
       return JSON.parse(JSON.stringify(row));
     },
     search() {
-      this.search_keyword = this.$route.query.value;
+      this.category_id = this.$route.query.c_id
+      this.search_keyword = this.$route.query.keyword;
       if (/^\s*$/.test(this.search_keyword)) {
         this.$notify.error({
           title: "错误",
@@ -62,7 +64,7 @@ export default {
       }
       this.$notify.info({
         title: "操作",
-        message: "正在检索词条",
+        message: "正在检索",
       });
       this.$store.commit("appendHistory", this.search_keyword);
       let self = this;
@@ -72,6 +74,7 @@ export default {
         url: `${self.$store.state.serverhost}/search_tags`,
         data: {
           keyword: self.search_keyword,
+          category_id: self.category_id
         },
       })
         .then((res) => {

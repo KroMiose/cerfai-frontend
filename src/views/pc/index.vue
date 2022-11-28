@@ -5,49 +5,96 @@
         <logo_information v-if="logo_information"></logo_information>
       </transition>
       <div :class="menu_class">
-        <el-button class="but but1 animate__animated animate__fadeInUp" type="primary" @click="contribution" round><i
-            class="fa fa-heart" aria-hidden="true"></i> 参与贡献</el-button>
-        <div class="select_box animate__animated animate__fadeInUp" :class="{
-          box_open: search_state || search_his_state || search_keyword,
-        }">
+        <el-button
+          class="but but1 animate__animated animate__fadeInUp"
+          type="primary"
+          @click="contribution"
+          round
+        >
+          <i class="fa fa-heart" aria-hidden="true"></i> 参与贡献
+        </el-button>
+        <div
+          class="select_box animate__animated animate__fadeInUp"
+          :class="{
+            box_open: search_state || search_his_state || search_keyword,
+          }"
+        >
           <i class="fa fa fa-search"></i>
-          <input class="tbox" @focus="search_state = true" @blur="search_state = false" v-model="search_keyword"
-            @keyup.enter="search" placeholder="请输入词条名" />
-          <button class="btn" type="button" name="button" @click="search">
-            搜索词条
-          </button>
+          <!-- 分类选择栏 -->
+          <category-selector @change="(nv) => (category_id = nv)" ></category-selector>
+          <!-- 词条搜索栏 -->
+          <input
+            class="tbox"
+            @focus="search_state = true"
+            @blur="search_state = false"
+            v-model="search_keyword"
+            @keyup.enter="search"
+            placeholder='请输入词条名'
+          >
+          <button class="btn" type="button" name="button" @click="search">搜索词条</button>
         </div>
+        
         <el-dropdown trigger="click" @command="r">
-          <el-button type="primary" class="but but3 animate__animated animate__fadeInUp">
+          <el-button
+            type="primary"
+            class="but but3 animate__animated animate__fadeInUp"
+          >
             <i class="fa fa-cubes" aria-hidden="true"></i> 更多菜单
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="/List"><i class="fa fa-heartbeat" aria-hidden="true"></i>
-              贡献榜单</el-dropdown-item>
-            <el-dropdown-item command="/Share"><i class="fa fa-rocket" aria-hidden="true"></i>
-              共享计划</el-dropdown-item>
-            <el-dropdown-item command="/about"><i class="fa fa-wheelchair-alt" aria-hidden="true"></i>
-              关于本站</el-dropdown-item>
+            <el-dropdown-item command="/List">
+              <i class="fa fa-heartbeat" aria-hidden="true"></i>
+              贡献榜单
+            </el-dropdown-item>
+            <el-dropdown-item command="/Share">
+              <i class="fa fa-rocket" aria-hidden="true"></i>
+              共享计划
+            </el-dropdown-item>
+            <el-dropdown-item command="/about">
+              <i class="fa fa-wheelchair-alt" aria-hidden="true"></i>
+              关于本站
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-button v-if="!logo_information" class="but but4 animate__animated animate__fadeInUp" type="primary"
-          @click="home" round><i class="fa fa-home" aria-hidden="true"></i> 返回首页</el-button>
-      </div>
-      <el-collapse-transition>
+
+        <el-button
+          v-if="!logo_information"
+          class="but but4 animate__animated animate__fadeInUp"
+          type="primary"
+          @click="home"
+          round
         >
-        <search-history @mouseover="search_his_state = true" @mouseout="search_his_state = false" v-show="search_state"
-          :datas="$store.state.searchHis" @select="
+          <i class="fa fa-home" aria-hidden="true"></i> 返回首页
+        </el-button>
+      </div>
+
+      <el-collapse-transition>
+        <search-history
+          @mouseover="search_his_state = true"
+          @mouseout="search_his_state = false"
+          v-show="search_state"
+          :datas="$store.state.searchHis"
+          @select="
             (k) => {
               (this.search_keyword = k), this.search();
             }
-          " @clear="clearHistory"></search-history>
+          "
+          @clear="clearHistory"
+        ></search-history>
       </el-collapse-transition>
-      <router-view :key="key" v-if="!logo_information" class="animate__animated animate__fadeInUp animate__slow" />
+
+      <router-view
+        :key="key"
+        v-if="!logo_information"
+        class="animate__animated animate__fadeInUp animate__slow"
+      />
       <el-dialog title="共享计划" :visible.sync="Share" width="30%">
         <div>
           <p>
             NovelAI词条百科共享站 - 数据开放平台 根据
-            <a href="https://www.bilibili.com/read/cv19252957" target="_blank">NovelAI信息并联计划公约</a>
+            <a href="https://www.bilibili.com/read/cv19252957" target="_blank"
+              >NovelAI信息并联计划公约</a
+            >
             约定：
           </p>
           <p>
@@ -59,7 +106,9 @@
           <p>
             本站提供接口详见
             <a
-              href="https://console-docs.apipost.cn/preview/dbc3a0be7aff05cb/526a9c13fe093c2c?target_id=632986c9-4ce6-4b50-b6b8-409e41be0c4b">接口文档</a>
+              href="https://console-docs.apipost.cn/preview/dbc3a0be7aff05cb/526a9c13fe093c2c?target_id=632986c9-4ce6-4b50-b6b8-409e41be0c4b"
+              >接口文档</a
+            >
           </p>
           <p>本站交流群：660612010</p>
           <p>
@@ -77,7 +126,9 @@
         <div>
           <div>
             本站皆在建立novelai中所包含的词条百科数据库，为广大魔导师提供词条贡献平台，所有收集的数据在收集整理后免费公开，为novelai开源生态建立数据仓库基础，为各大开发者提供<strong
-              style="color: #e55">数据接口服务</strong>（详见"共享计划"），如果您有其他数据源或者自行整理的词条信息，并且希望参与本站建设，可以直接联系我们进行批量数据导入<br />
+              style="color: #e55"
+              >数据接口服务</strong
+            >（详见"共享计划"），如果您有其他数据源或者自行整理的词条信息，并且希望参与本站建设，可以直接联系我们进行批量数据导入<br />
             联系方式： 621816415(洛儿)<br />
             本站交流群：660612010
           </div>
@@ -99,6 +150,8 @@
 <script>
 import logo_information from "@/components/pc/logo_information.vue";
 import searchHistory from "@/components/pc/searchHistory.vue";
+import categorySelector from "@/components/pc/categorySelector.vue";
+
 export default {
   data() {
     return {
@@ -108,6 +161,8 @@ export default {
       search_state: false,
       search_his_state: false,
       search_keyword: "",
+      // 分类id
+      category_id: '',
       key: 0,
       Share: false,
       about: false,
@@ -116,6 +171,7 @@ export default {
   components: {
     logo_information,
     searchHistory,
+    categorySelector,
   },
   methods: {
     r(path) {
@@ -151,7 +207,10 @@ export default {
       this.menu_class = "menu2 animate__animated animate__backInUp";
       this.$router.push({
         path: "/selectTags",
-        query: { value: this.search_keyword },
+        query: {
+          keyword: this.search_keyword,
+          c_id: this.category_id
+        },
       });
     },
     home() {
@@ -198,6 +257,14 @@ export default {
   top: 20px;
   left: 0;
   width: 100%;
+}
+
+.el-cascader >>> .el-input__inner {
+  width: fit-content;
+  height: 40px;
+  padding: 1px 2px;
+  border: none;
+  border-radius: 0%;
 }
 
 .plus-icon-enter-active {
@@ -315,6 +382,11 @@ export default {
   line-height: 40px;
 }
 
+.select_box select {
+  min-width: 0;
+  max-width: fit-content;
+}
+
 .tbox,
 .btn {
   border: none;
@@ -326,7 +398,7 @@ export default {
   transition: 0.6s;
 }
 
-.select_box:hover>.tbox,
+.select_box:hover > .tbox,
 .tbox:focus {
   width: 200px;
   padding: 0 10px;

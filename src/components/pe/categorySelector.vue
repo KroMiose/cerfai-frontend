@@ -1,8 +1,7 @@
 <template>
-    <div>
-        <el-cascader placeholder="点击展开选择分类" :value="value" :options="options" filterable
-            v-on:change="valueChanged" separator=">"></el-cascader>
-    </div>
+    <el-cascader placeholder="选择分类" :value="value" :options="options" filterable
+        v-on:change="valueChanged" separator=">">
+    </el-cascader>
 </template>
 <script>
 export default {

@@ -12,6 +12,8 @@
           }"
         >
           <i class="fa fa fa-search"></i>
+          <!-- 分类选择栏 -->
+          <category-selector @change="(nv) => (category_id = nv)" ></category-selector>
           <input
             class="tbox"
             @focus="search_state = true"
@@ -21,7 +23,7 @@
             placeholder="请输入词条名"
           />
           <button class="btn" type="button" name="button" @click="search">
-            搜索词条
+            <span>搜索词条</span>
           </button>
         </div>
         <el-button
@@ -146,6 +148,8 @@
 <script>
 import logo_information from "@/components/pe/logo_information.vue";
 import searchHistory from "@/components/pe/searchHistory.vue";
+import categorySelector from "@/components/pe/categorySelector.vue";
+
 export default {
   data() {
     return {
@@ -155,6 +159,8 @@ export default {
       search_state: false,
       search_his_state: false,
       search_keyword: "",
+      // 分类id
+      category_id: '',
       key: 0,
       Share: false,
       about: false,
@@ -163,6 +169,7 @@ export default {
   components: {
     logo_information,
     searchHistory,
+    categorySelector
   },
   methods: {
     r(path) {
@@ -198,7 +205,10 @@ export default {
       this.menu_class = "menu2 animate__animated animate__backInUp";
       this.$router.push({
         path: "/selectTags_pe",
-        query: { value: this.search_keyword },
+        query: {
+          value: this.search_keyword,
+          c_id: this.category_id
+        },
       });
     },
     home() {
@@ -329,6 +339,7 @@ export default {
 
 /* **** */
 .select_box {
+  width: 90vw;
   height: 40px;
   justify-content: center;
   display: flex;
@@ -340,6 +351,9 @@ export default {
   background: #fd4b4b;
   width: 40px;
   line-height: 40px;
+}
+.select_box input {
+  width: 60%;
 }
 .tbox,
 .btn {
@@ -368,8 +382,9 @@ export default {
   padding: 0 10px;
   text-transform: uppercase;
   cursor: pointer;
-  width: 100px;
+  width: 30vw;
 }
+
 .fa {
   text-align: center;
 }
@@ -379,5 +394,13 @@ export default {
   left: 0%;
   width: 100%;
   z-index: 2;
+}
+
+.el-cascader >>> .el-input__inner {
+  width: 100%;
+  height: 40px;
+  padding: 1px 2px;
+  border: none;
+  border-radius: 0%;
 }
 </style>
