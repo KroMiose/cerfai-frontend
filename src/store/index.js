@@ -7,8 +7,8 @@ export default new Vuex.Store({
   state: {
     categories: {l1:[],l2:[]}, // 分类列表
     // serverhost: 'https://api.kromiose.top:9090', // 生产环境（目前）
-    serverhost: 'https://api.cerfai.com', // 生产环境（日志完成后迁移）
-    // serverhost: 'https://dev.kromiose.top', // 开发测试环境
+    // serverhost: 'https://api.cerfai.com', // 生产环境（日志完成后迁移）
+    serverhost: 'https://dev.kromiose.top', // 开发测试环境
     // serverhost: 'http://127.0.0.1:9091', // 本地
 
     token: '',
