@@ -79,7 +79,7 @@ export default {
         .then((res) => {
           if (res.data.code === 200) {
             // console.log(res.data)
-            if (res.data.data.length > 0) {
+            if (res.data.data && res.data.data.length > 0) {
               for (let i = 0; i < res.data.data.length; i++) {
                 let curId = parseInt(res.data.data[i].c_id),
                   l1name = "";
@@ -113,10 +113,10 @@ export default {
               self.search_res = [];
             }
           } else {
-            self.$message({
-              type: "error",
-              message: res.data.msg,
-            });
+            // self.$message({
+            //   type: "error",
+            //   message: res.data.msg,
+            // });
           }
         })
         .catch((err) => {
