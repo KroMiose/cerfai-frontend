@@ -353,7 +353,7 @@ export default {
   line-height: 40px;
 }
 .select_box input {
-  width: 60%;
+  width: 40%;
 }
 .tbox,
 .btn {
@@ -399,7 +399,7 @@ export default {
 .el-cascader >>> .el-input__inner {
   width: 100%;
   height: 40px;
-  padding: 1px 2px;
+  padding: 1px 30px 1px 2px;
   border: none;
   border-radius: 0%;
 }

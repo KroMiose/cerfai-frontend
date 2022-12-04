@@ -262,9 +262,10 @@ export default {
 .el-cascader >>> .el-input__inner {
   width: fit-content;
   height: 40px;
-  padding: 1px 2px;
+  padding: 1px 30px 1px 2px;
   border: none;
   border-radius: 0%;
+  overflow: hidden;
 }
 
 .plus-icon-enter-active {
